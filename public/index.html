@@ -813,7 +813,8 @@ function renderEquipment(p) {
     return '<div class="eq-card '+(isE?'epic':'rare')+'" title="'+e.name+' Lv'+e.level+'/'+e.maxLevel+'">'+
       '<div class="eq-rarity-dot '+(isE?'epic':'rare')+'"></div>'+
       (img?'<img class="eq-img" src="'+img+'" alt="'+e.name+'" loading="lazy"/>':
-           '<div style="width:46px;height:46px;margin:0 auto 4px;display:flex;align-items:center;justify-content:center;font-size:22px">'+(isE?'💎':'💠')+'</div>')+
+           '<div style="width:44px;height:44px;margin:0 auto 4px;display:flex;align-items:center;justify-content:center;font-size:22px">'+(isE?'💎':'💠')+'</div>')+
+      '<div class="eq-name">'+e.name+'</div>'+
       '<div class="eq-lv '+lvCls+'">'+e.level+'<span style="color:var(--muted);font-size:8px">/'+e.maxLevel+'</span></div>'+
     '</div>';
   }).join('');

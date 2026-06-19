@@ -3,7 +3,7 @@ const IMGS = {
   // ── TOWN HALLS ──
   th: {
     18: "https://static.wikia.nocookie.net/clashofclans/images/7/76/Town_Hall18.png/revision/latest?cb=20251117162127",
-    17: "https://static.wikia.nocookie.net/clashofclans/images/1/18/Town_Hall17.png/revision/latest?cb=20240212092554",
+    17: "https://static.wikia.nocookie.net/clashofclans/images/f/fa/Th17_3D_View.png/revision/latest?cb=20241123034139",
     16: "https://static.wikia.nocookie.net/clashofclans/images/5/53/Town_Hall16.png/revision/latest?cb=20231211062744",
     15: "https://static.wikia.nocookie.net/clashofclans/images/d/d4/Town_Hall15.png/revision/latest?cb=20251008075733",
     14: "https://static.wikia.nocookie.net/clashofclans/images/b/b6/Town_Hall14.png/revision/latest?cb=20251008133902",
@@ -11,9 +11,22 @@ const IMGS = {
     12: "https://static.wikia.nocookie.net/clashofclans/images/b/b7/Town_Hall12.png/revision/latest?cb=20251008133316",
     11: "https://static.wikia.nocookie.net/clashofclans/images/9/96/Town_Hall11.png/revision/latest?cb=20210410001514",
     10: "https://static.wikia.nocookie.net/clashofclans/images/5/5c/Town_Hall10.png/revision/latest?cb=20170827040043",
+     9: "https://static.wikia.nocookie.net/clashofclans/images/e/e0/Town_Hall9.png/revision/latest?cb=20170827045259",
+     8: "https://static.wikia.nocookie.net/clashofclans/images/f/fa/Town_Hall8.png/revision/latest?cb=20170827051039",
+     7: "https://static.wikia.nocookie.net/clashofclans/images/7/75/Town_Hall7.png/revision/latest?cb=20170827051024",
+     6: "https://static.wikia.nocookie.net/clashofclans/images/5/52/Town_Hall6.png/revision/latest?cb=20170827050220",
+     5: "https://static.wikia.nocookie.net/clashofclans/images/a/a3/Town_Hall5.png/revision/latest?cb=20170827050118",
+     4: "https://static.wikia.nocookie.net/clashofclans/images/e/e7/Town_Hall4.png/revision/latest?cb=20170827050104",
+     3: "https://static.wikia.nocookie.net/clashofclans/images/d/dd/Town_Hall3.png/revision/latest?cb=20170827050050",
+     2: "https://static.wikia.nocookie.net/clashofclans/images/7/7d/Town_Hall2.png/revision/latest?cb=20170827050036",
+     1: "https://static.wikia.nocookie.net/clashofclans/images/f/fd/Town_Hall1.png/revision/latest?cb=20170827034930",
   },
   bh: {
     10: "https://static.wikia.nocookie.net/clashofclans/images/8/87/Builder_Hall10.png/revision/latest?cb=20230516070454",
+     9: "https://static.wikia.nocookie.net/clashofclans/images/8/87/Builder_Hall10.png/revision/latest?cb=20230516070454",
+     8: "https://static.wikia.nocookie.net/clashofclans/images/8/87/Builder_Hall10.png/revision/latest?cb=20230516070454",
+     7: "https://static.wikia.nocookie.net/clashofclans/images/8/87/Builder_Hall10.png/revision/latest?cb=20230516070454",
+     6: "https://static.wikia.nocookie.net/clashofclans/images/8/87/Builder_Hall10.png/revision/latest?cb=20230516070454",
   },
   // ── HEROES ──
   heroes: {

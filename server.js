@@ -37,6 +37,15 @@ function cocFetch(apiPath) {
   });
 }
 
+/* ── GET /api/myip — returns this server's outbound IP ── */
+app.get('/api/myip', (req, res) => {
+  https.get('https://api.ipify.org?format=json', (r) => {
+    let d = '';
+    r.on('data', c => d += c);
+    r.on('end', () => res.json(JSON.parse(d)));
+  }).on('error', e => res.status(500).json({ error: e.message }));
+});
+
 /* ── GET /api/player?tag=... ── */
 app.get('/api/player', async (req, res) => {
   const { tag } = req.query;

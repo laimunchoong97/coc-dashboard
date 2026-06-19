@@ -116,6 +116,10 @@ const IMGS = {
     "Drop Ship":        "https://static.wikia.nocookie.net/clashofclans/images/1/17/Drop_Ship_info.png/revision/latest?cb=20260122221312",
     "Night Witch":      "https://static.wikia.nocookie.net/clashofclans/images/1/10/Night_Witch_info.png/revision/latest?cb=20170927155716",
     "Hog Glider":       "https://static.wikia.nocookie.net/clashofclans/images/2/2d/Hog_Glider_info.png/revision/latest?cb=20190615155934",
+    "Super Wall Breaker":"https://static.wikia.nocookie.net/clashofclans/images/b/b1/Super_Wall_Breaker_info.png/revision/latest?cb=20200829085953",
+    "Super Yeti":       "https://static.wikia.nocookie.net/clashofclans/images/1/19/Super_Yeti_info.png/revision/latest?cb=20250326095436",
+    "Meteor Golem":     "https://static.wikia.nocookie.net/clashofclans/images/2/21/Meteor_Golem_info.png/revision/latest?cb=20251116093652",
+    "Sky Wagon":        "https://static.wikia.nocookie.net/clashofclans/images/f/fd/Sky_Wagon_info.png/revision/latest?cb=20260427144359",
     "Electrofire Wizard":"https://static.wikia.nocookie.net/clashofclans/images/2/2e/Electrofire_Wizard_info.png/revision/latest?cb=20230515202816",
   },
   // ── SPELLS ──
@@ -135,8 +139,8 @@ const IMGS = {
     "Bat Spell":          "https://static.wikia.nocookie.net/clashofclans/images/3/3d/Bat_Spell_info.png/revision/latest?cb=20181205010820",
     "Overgrowth Spell":   "https://static.wikia.nocookie.net/clashofclans/images/a/a6/Overgrowth_Spell_info.png/revision/latest?cb=20260209174702",
     "Revive Spell":       "https://static.wikia.nocookie.net/clashofclans/images/5/5f/Revive_Spell_info.png/revision/latest?cb=20241123132732",
-    "Ice Block Spell":    "https://static.wikia.nocookie.net/clashofclans/images/e/ef/Freeze_Spell_info.png/revision/latest?cb=20180627210930",
-    "Totem Spell":        "https://static.wikia.nocookie.net/clashofclans/images/8/8a/Rage_Spell_info.png/revision/latest?cb=20171008204108",
+    "Ice Block Spell":    "https://static.wikia.nocookie.net/clashofclans/images/6/66/Ice_Block_Spell_info.png/revision/latest?cb=20250616133809",
+    "Totem Spell":        "https://static.wikia.nocookie.net/clashofclans/images/d/d1/Totem_Spell_info.png/revision/latest?cb=20251116131624",
   },
   // ── EQUIPMENT ──
   equipment: {

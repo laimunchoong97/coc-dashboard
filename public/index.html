@@ -281,6 +281,7 @@
     <!-- Troops -->
     <div class="sc full">
       <div class="sc-title"><div class="sc-dot" style="background:var(--cyan)"></div>Troops & Spells</div>
+      <div class="super-active-bar" id="superActiveBar" style="display:none"></div>
       <div class="troop-tabs" id="troopTabs"></div>
       <div class="troops-grid" id="troopGrid"></div>
     </div>
@@ -290,6 +291,10 @@
       <div class="sc">
         <div class="sc-title"><div class="sc-dot" style="background:var(--green2)"></div>Key Achievements</div>
         <div class="ach-grid" id="achGrid"></div>
+      </div>
+      <div class="sc">
+        <div class="sc-title"><div class="sc-dot" style="background:var(--gold)"></div>Player Stats</div>
+        <div class="player-stats-grid" id="playerStatsGrid"></div>
       </div>
       <div class="sc raw-toggle-btn" onclick="toggleRaw()">
         <div class="sc-title">
@@ -455,6 +460,7 @@ function render(p) {
   renderResearch(p);
   renderTroops(p);
   renderAchievements(p);
+  renderPlayerStats(p);
   qs('#rawPre').textContent = JSON.stringify(p, null, 2);
 }
 
@@ -660,16 +666,21 @@ function renderLegend(p) {
 
 /* ── BUILDER BASE ── */
 function renderBB(p) {
-  var bbH = (p.heroes||[]).filter(function(h){return h.village==='builderBase';});
-  var bbT = (p.troops||[]).filter(function(t){return t.village==='builderBase';});
-  var mx  = bbT.filter(function(t){return t.level>=t.maxLevel;}).length;
-  var bhI = IMGS.bh[10] || '';
+  var bbH    = (p.heroes||[]).filter(function(h){return h.village==='builderBase';});
+  var bbT    = (p.troops||[]).filter(function(t){return t.village==='builderBase';});
+  var mx     = bbT.filter(function(t){return t.level>=t.maxLevel;}).length;
+  var bhI    = IMGS.bh[p.builderHallLevel] || IMGS.bh[10] || '';
+  var league = p.builderBaseLeague ? p.builderBaseLeague.name : null;
   qs('#bbContent').innerHTML =
     '<div class="bb-card">'+
       '<div class="bb-head">'+
         (bhI?'<img class="bb-img" src="'+bhI+'" alt="BH" loading="lazy"/>':'')+
         '<div class="bb-lv-badge"><div class="bb-lv-n">'+(p.builderHallLevel||'—')+'</div><div class="bb-lv-l">BH LVL</div></div>'+
-        '<div><div class="bb-title">Builder Base</div><div class="bb-sub">'+mx+'/'+bbT.length+' troops maxed</div></div>'+
+        '<div>'+
+          '<div class="bb-title">Builder Base</div>'+
+          (league?'<div class="bb-sub" style="color:var(--blue2);font-weight:700">'+league+'</div>':'')+ 
+          '<div class="bb-sub">'+mx+'/'+bbT.length+' troops maxed</div>'+
+        '</div>'+
       '</div>'+
       '<div class="bb-stats">'+
         '<div class="bb-stat"><div class="bb-stat-v" style="color:var(--blue2)">'+fmt(p.builderBaseTrophies||0)+'</div><div class="bb-stat-l">BH Trophies</div></div>'+
@@ -713,7 +724,21 @@ function renderHeroes(p, wrapId) {
         '<div class="hc-lv-badge '+lvCls+'">'+h.level+'<span style="font-size:8px;color:var(--muted)">/'+h.maxLevel+'</span></div>'+
       '</div>'+
       '<div class="hc-bar-wrap"><div class="hc-bar" style="width:'+pct+'%;background:'+col+'"></div></div>'+
+      mkLoadout(h)+
     '</div>';
+  }
+
+  function mkLoadout(h) {
+    if (!h.equipment || !h.equipment.length) return '';
+    var chips = h.equipment.map(function(e) {
+      var isM  = e.level >= e.maxLevel;
+      var img  = IMGS.equipment[e.name] || '';
+      return '<div class="loadout-chip '+(isM?'maxed':'')+'" title="'+e.name+' Lv'+e.level+'/'+e.maxLevel+'">'+
+        (img ? '<img src="'+img+'" width="16" height="16" alt="'+e.name+'"/>' : '')+
+        '<span>'+e.name.split(' ').slice(0,2).join(' ')+'</span>'+
+      '</div>';
+    }).join('');
+    return '<div class="hero-loadout">'+chips+'</div>';
   }
 
   var wrap = qs('#'+wrapId); wrap.innerHTML = '';

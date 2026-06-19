@@ -441,6 +441,56 @@ img { display:block }
 .state     { display:none; flex-direction:column; align-items:center; justify-content:center }
 .state.show{ display:flex }
 
+/* HERO LOADOUT */
+.hero-loadout { display:flex; gap:4px; justify-content:center; flex-wrap:wrap; margin-top:6px }
+.loadout-chip {
+  display:inline-flex; align-items:center; gap:3px;
+  background:rgba(0,0,0,.35); border:1px solid var(--border2);
+  border-radius:6px; padding:2px 5px; font-size:8px; color:var(--muted2);
+  font-weight:600; max-width:72px;
+}
+.loadout-chip.maxed { border-color:rgba(245,197,24,.3); color:var(--gold) }
+.loadout-chip img { width:16px; height:16px; object-fit:contain; flex-shrink:0 }
+
+/* SUPER TROOPS ACTIVE */
+.super-active-bar { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px }
+.super-chip {
+  display:inline-flex; align-items:center; gap:5px;
+  background:linear-gradient(135deg,rgba(231,76,60,.18),rgba(231,76,60,.06));
+  border:1px solid rgba(231,76,60,.35); border-radius:20px;
+  padding:4px 10px; font-size:10px; font-weight:700; color:#ff9999;
+  animation:pulse-gold 2s ease-in-out infinite;
+}
+.super-chip img { width:20px; height:20px; object-fit:contain }
+
+/* PLAYER STATS SECTION */
+.player-stats-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px }
+.ps-card {
+  background:rgba(0,0,0,.3); border:1px solid var(--border);
+  border-radius:10px; padding:14px 12px; text-align:center;
+  position:relative; overflow:hidden; transition:.2s;
+}
+.ps-card:hover { border-color:var(--border2); transform:translateY(-2px) }
+.ps-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px }
+.ps-card.gold::before   { background:var(--gold) }
+.ps-card.green::before  { background:var(--green2) }
+.ps-card.blue::before   { background:var(--blue2) }
+.ps-card.purple::before { background:var(--purple2) }
+.ps-card.red::before    { background:var(--red) }
+.ps-card.cyan::before   { background:var(--cyan) }
+.ps-icon { font-size:22px; margin-bottom:6px }
+.ps-val  { font-size:20px; font-weight:900; color:#fff; line-height:1; margin-bottom:3px; font-family:'Lilita One',sans-serif }
+.ps-lbl  { font-size:9px; color:var(--muted); letter-spacing:.5px; text-transform:uppercase }
+.ps-sub  { font-size:9px; color:var(--muted2); margin-top:3px }
+
+/* WIN RATE BAR */
+.winrate-wrap { display:flex; align-items:center; gap:10px; margin-top:8px }
+.winrate-bar  { flex:1; background:rgba(0,0,0,.4); border-radius:6px; height:10px; overflow:hidden; border:1px solid rgba(0,0,0,.4) }
+.winrate-fill { height:100%; border-radius:5px; background:linear-gradient(90deg,#1A6B35,var(--green2)); position:relative }
+.winrate-fill::after { content:''; position:absolute; top:0; left:0; right:0; height:50%; background:rgba(255,255,255,.18); border-radius:3px 3px 0 0 }
+.winrate-pct  { font-size:14px; font-weight:800; color:var(--green2); font-family:'Lilita One',sans-serif; flex-shrink:0 }
+.winrate-sub  { font-size:10px; color:var(--muted); margin-top:2px }
+
 /* RAW */
 .raw-toggle-btn { cursor:pointer }
 pre.raw { background:rgba(0,0,0,.5); border-radius:7px; padding:14px; font-size:10px; color:#5878a0; overflow:auto; max-height:320px; line-height:1.6; border:1px solid var(--border); margin-top:8px }

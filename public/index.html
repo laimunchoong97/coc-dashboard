@@ -10,206 +10,202 @@
   --border:#1e1e3a;--border2:#252545;
   --accent:#e94560;--gold:#f5a623;--green:#2ecc71;--blue:#3498db;
   --purple:#9b59b6;--cyan:#1abc9c;--orange:#e67e22;--pink:#fd79a8;
+  --red:#e74c3c;
   --text:#eeeef5;--muted:#5a5a80;--muted2:#8888aa;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px}
 img{display:block}
-
-/* ─── SCROLLBAR ─── */
-::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar{width:5px;height:5px}
 ::-webkit-scrollbar-track{background:var(--bg)}
 ::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
 
-/* ─── TOPBAR ─── */
-.topbar{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:12px 28px;background:var(--surface);
-  border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;
-  backdrop-filter:blur(10px);
-}
-.logo{font-size:18px;font-weight:800;color:#fff;display:flex;align-items:center;gap:8px}
+/* ── TOPBAR ── */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 24px;background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:200}
+.logo{font-size:18px;font-weight:800;color:#fff;display:flex;align-items:center;gap:8px;flex-shrink:0}
 .logo span{color:var(--accent)}
-.logo-badge{font-size:10px;background:rgba(233,69,96,.15);color:var(--accent);
-  border:1px solid rgba(233,69,96,.25);padding:2px 8px;border-radius:20px;letter-spacing:1px}
-.topbar-center{display:flex;align-items:center;gap:10px}
-.tag-input{
-  background:var(--bg);border:1px solid var(--border2);border-radius:8px;
-  padding:8px 14px;color:var(--text);font-size:13px;outline:none;width:200px;
-  transition:border-color .2s;font-family:monospace;letter-spacing:.5px;
-}
-.tag-input:focus{border-color:var(--accent);width:240px}
-.tag-input::placeholder{color:var(--muted);font-family:inherit;letter-spacing:0}
-.btn{
-  padding:8px 18px;border-radius:8px;border:none;cursor:pointer;
-  font-size:13px;font-weight:700;display:flex;align-items:center;gap:6px;
-  transition:all .15s;white-space:nowrap;
-}
+.logo-v{font-size:9px;background:var(--accent);color:#fff;padding:2px 6px;border-radius:3px;letter-spacing:1px}
+.topbar-mid{display:flex;align-items:center;gap:8px;flex:1;max-width:640px;margin:0 24px}
+.ti{background:var(--bg);border:1px solid var(--border2);border-radius:8px;padding:8px 14px;color:var(--text);font-size:13px;outline:none;width:100%;font-family:monospace;letter-spacing:.5px;transition:border .2s}
+.ti:focus{border-color:var(--accent)}
+.ti::placeholder{color:var(--muted);font-family:inherit;letter-spacing:0}
+.btn{padding:8px 18px;border-radius:8px;border:none;cursor:pointer;font-size:13px;font-weight:700;display:flex;align-items:center;gap:6px;transition:all .15s;white-space:nowrap;flex-shrink:0}
 .btn-primary{background:var(--accent);color:#fff}
-.btn-primary:hover{background:#c73652;transform:translateY(-1px);box-shadow:0 4px 12px rgba(233,69,96,.3)}
+.btn-primary:hover{background:#c73652;transform:translateY(-1px);box-shadow:0 4px 14px rgba(233,69,96,.35)}
 .btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-compare{background:rgba(52,152,219,.15);color:#5dade2;border:1px solid rgba(52,152,219,.25)}
+.btn-compare:hover{background:rgba(52,152,219,.25)}
+.btn-compare.active{background:var(--blue);color:#fff;border-color:var(--blue)}
 .btn-ghost{background:transparent;color:var(--muted2);border:1px solid var(--border2)}
-.btn-ghost:hover{border-color:var(--border2);color:var(--text);background:var(--card)}
-.topbar-right{display:flex;align-items:center;gap:10px}
-.status-pip{width:7px;height:7px;border-radius:50%;background:var(--muted)}
-.status-pip.on{background:var(--green);box-shadow:0 0 6px var(--green)}
-.status-txt{font-size:11px;color:var(--muted)}
+.btn-ghost:hover{color:var(--text);background:var(--card)}
+.topbar-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.pip{width:7px;height:7px;border-radius:50%;background:var(--muted)}
+.pip.on{background:var(--green);box-shadow:0 0 6px var(--green)}
+.pip-txt{font-size:11px;color:var(--muted)}
 
-/* ─── VERIFY STRIP ─── */
-.verify-strip{
-  background:rgba(245,166,35,.06);border-bottom:1px solid rgba(245,166,35,.15);
-  padding:10px 28px;display:none;align-items:center;gap:12px;flex-wrap:wrap;
-}
+/* ── COMPARE INPUT STRIP ── */
+.compare-strip{display:none;background:rgba(52,152,219,.05);border-bottom:1px solid rgba(52,152,219,.15);padding:10px 24px;align-items:center;gap:10px;flex-wrap:wrap}
+.compare-strip.show{display:flex}
+.cs-label{font-size:11px;color:#5dade2;font-weight:700;letter-spacing:.5px;flex-shrink:0}
+.vs-badge{background:rgba(52,152,219,.15);color:#5dade2;border:1px solid rgba(52,152,219,.25);padding:4px 12px;border-radius:20px;font-size:11px;font-weight:800;flex-shrink:0}
+
+/* ── VERIFY STRIP ── */
+.verify-strip{display:none;background:rgba(245,166,35,.05);border-bottom:1px solid rgba(245,166,35,.12);padding:8px 24px;align-items:center;gap:10px;flex-wrap:wrap}
 .verify-strip.show{display:flex}
-.vs-label{font-size:11px;color:var(--gold);font-weight:600;letter-spacing:.5px}
-.vs-input{
-  background:var(--bg);border:1px solid rgba(245,166,35,.2);border-radius:6px;
-  padding:6px 12px;color:var(--text);font-size:12px;outline:none;width:300px;
-  font-family:monospace;
-}
-.vs-input:focus{border-color:var(--gold)}
+.vs-label{font-size:11px;color:var(--gold);font-weight:600}
+.vs-in{background:var(--bg);border:1px solid rgba(245,166,35,.2);border-radius:6px;padding:6px 12px;color:var(--text);font-size:12px;outline:none;flex:1;min-width:200px;max-width:380px;font-family:monospace}
 
-/* ─── STATES ─── */
-.state{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:14px;padding:40px}
+/* ── STATES ── */
+.state{display:none;flex-direction:column;align-items:center;justify-content:center;min-height:65vh;gap:14px;padding:40px}
 .state.show{display:flex}
-.state-icon{font-size:52px;opacity:.25}
-.state-title{font-size:18px;font-weight:700;color:var(--muted2)}
-.state-desc{font-size:13px;color:var(--muted);text-align:center;max-width:380px;line-height:1.8}
+.st-icon{font-size:52px;opacity:.2}
+.st-title{font-size:18px;font-weight:700;color:var(--muted2)}
+.st-desc{font-size:13px;color:var(--muted);text-align:center;max-width:400px;line-height:1.8}
 .spinner{width:40px;height:40px;border:3px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.err-box{background:rgba(233,69,96,.1);border:1px solid rgba(233,69,96,.3);border-radius:10px;padding:14px 18px;color:#ff8099;font-size:13px;max-width:600px;line-height:1.7}
+.err-box{background:rgba(233,69,96,.08);border:1px solid rgba(233,69,96,.25);border-radius:10px;padding:14px 18px;color:#ff8099;font-size:13px;max-width:560px;line-height:1.7}
 
-/* ─── MAIN ─── */
-.main{padding:24px 28px;max-width:1440px;margin:0 auto}
+/* ── LAYOUT ── */
+.main{padding:20px 24px;max-width:1480px;margin:0 auto}
 #dash{display:none}
 #dash.show{display:block}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px}
+.g347{display:grid;grid-template-columns:3fr 4fr 3fr;gap:16px;margin-bottom:16px}
+.full{margin-bottom:16px}
+@media(max-width:1100px){.g347,.g3{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){.g2,.g3,.g347{grid-template-columns:1fr}}
 
-/* ─── PROFILE BANNER ─── */
-.profile-banner{
-  background:linear-gradient(135deg,#14142a 0%,#0f0f20 60%,#14142a 100%);
-  border:1px solid var(--border);border-radius:16px;
-  padding:24px 28px;margin-bottom:20px;
-  display:flex;align-items:center;gap:20px;flex-wrap:wrap;
-  position:relative;overflow:hidden;
-}
-.profile-banner::after{
-  content:'';position:absolute;right:0;top:0;bottom:0;width:300px;
-  background:linear-gradient(90deg,transparent,rgba(233,69,96,.04));pointer-events:none;
-}
-.pb-clan-badge{width:64px;height:64px;border-radius:12px;overflow:hidden;flex-shrink:0;border:1px solid var(--border2);background:var(--card)}
-.pb-th{
-  width:72px;height:72px;border-radius:14px;flex-shrink:0;
-  background:linear-gradient(135deg,rgba(245,166,35,.2),rgba(245,166,35,.04));
-  border:2px solid rgba(245,166,35,.35);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-}
-.pb-th-num{font-size:26px;font-weight:900;color:var(--gold);line-height:1}
-.pb-th-lbl{font-size:9px;color:var(--muted);letter-spacing:1px;margin-top:2px}
-.pb-info{flex:1;min-width:180px}
-.pb-name{font-size:24px;font-weight:800;color:#fff;line-height:1;margin-bottom:4px}
-.pb-tag{font-size:12px;color:var(--muted);font-family:monospace;margin-bottom:8px}
-.pb-pills{display:flex;gap:6px;flex-wrap:wrap}
-.pill{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
-.pill-gold{background:rgba(245,166,35,.12);color:var(--gold);border:1px solid rgba(245,166,35,.2)}
-.pill-blue{background:rgba(52,152,219,.12);color:#5dade2;border:1px solid rgba(52,152,219,.2)}
-.pill-green{background:rgba(46,204,113,.12);color:var(--green);border:1px solid rgba(46,204,113,.2)}
-.pill-red{background:rgba(233,69,96,.12);color:var(--accent);border:1px solid rgba(233,69,96,.2)}
-.pill-purple{background:rgba(155,89,182,.12);color:#c39bd3;border:1px solid rgba(155,89,182,.2)}
-.pb-stats{display:flex;gap:0;border-left:1px solid var(--border);margin-left:auto}
-.pbs{padding:0 20px;border-right:1px solid var(--border);text-align:center}
-.pbs:last-child{border-right:none}
-.pbs-val{font-size:20px;font-weight:800;color:#fff;line-height:1;margin-bottom:3px}
-.pbs-lbl{font-size:10px;color:var(--muted);letter-spacing:.5px}
-
-/* ─── GRID LAYOUTS ─── */
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-bottom:18px}
-.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:18px}
-.g-347{display:grid;grid-template-columns:3fr 4fr 3fr;gap:18px;margin-bottom:18px}
-@media(max-width:1100px){.g-347,.g3{grid-template-columns:1fr 1fr}}
-@media(max-width:750px){.g2,.g3,.g4,.g-347{grid-template-columns:1fr}}
-
-/* ─── SECTION CARD ─── */
-.sc{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;overflow:hidden}
-.sc-title{
-  font-size:11px;font-weight:700;color:var(--muted);letter-spacing:1.5px;
-  text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:8px;
-}
+/* ── SECTION CARD ── */
+.sc{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 20px;overflow:hidden}
+.sc-title{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:7px}
 .sc-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
-.sc-right{margin-left:auto;font-size:11px;color:var(--muted);font-weight:400;letter-spacing:0;text-transform:none}
+.sc-right{margin-left:auto;font-size:11px;color:var(--muted2);font-weight:600;letter-spacing:0;text-transform:none}
 
-/* ─── SCORE CARD ─── */
-.score-wrap{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
-.score-ring{position:relative;width:110px;height:110px;flex-shrink:0}
+/* ── PERCENTILE BADGE ── */
+.pct-badge{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;margin-left:6px;vertical-align:middle}
+.pct-elite{background:rgba(245,166,35,.15);color:var(--gold);border:1px solid rgba(245,166,35,.25)}
+.pct-high{background:rgba(46,204,113,.12);color:var(--green);border:1px solid rgba(46,204,113,.2)}
+.pct-mid{background:rgba(52,152,219,.12);color:#5dade2;border:1px solid rgba(52,152,219,.2)}
+.pct-low{background:rgba(255,255,255,.06);color:var(--muted2);border:1px solid var(--border2)}
+
+/* ── PROFILE BANNER ── */
+.profile-banner{background:linear-gradient(135deg,#14142a 0%,#0d0d1e 60%,#14142a 100%);border:1px solid var(--border);border-radius:16px;padding:20px 24px;margin-bottom:16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;position:relative;overflow:hidden}
+.profile-banner::after{content:'';position:absolute;right:0;top:0;bottom:0;width:200px;background:linear-gradient(90deg,transparent,rgba(233,69,96,.04));pointer-events:none}
+.pb-clan{width:56px;height:56px;border-radius:10px;overflow:hidden;flex-shrink:0;border:1px solid var(--border2);background:var(--card)}
+.pb-th{width:66px;height:66px;border-radius:13px;flex-shrink:0;background:linear-gradient(135deg,rgba(245,166,35,.18),rgba(245,166,35,.04));border:2px solid rgba(245,166,35,.3);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.pb-th-n{font-size:24px;font-weight:900;color:var(--gold);line-height:1}
+.pb-th-l{font-size:9px;color:var(--muted);letter-spacing:1px}
+.pb-info{flex:1;min-width:160px}
+.pb-name{font-size:22px;font-weight:800;color:#fff;line-height:1;margin-bottom:3px}
+.pb-tag{font-size:11px;color:var(--muted);font-family:monospace;margin-bottom:7px}
+.pb-pills{display:flex;gap:5px;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:10px;font-weight:600}
+.pill-gold{background:rgba(245,166,35,.12);color:var(--gold);border:1px solid rgba(245,166,35,.18)}
+.pill-blue{background:rgba(52,152,219,.12);color:#5dade2;border:1px solid rgba(52,152,219,.18)}
+.pill-green{background:rgba(46,204,113,.12);color:var(--green);border:1px solid rgba(46,204,113,.18)}
+.pill-red{background:rgba(233,69,96,.12);color:var(--accent);border:1px solid rgba(233,69,96,.18)}
+.pill-purple{background:rgba(155,89,182,.12);color:#c39bd3;border:1px solid rgba(155,89,182,.18)}
+.pb-stats{display:flex;flex-wrap:wrap;gap:0;border-left:1px solid var(--border);margin-left:auto}
+.pbs{padding:0 16px;border-right:1px solid var(--border);text-align:center;min-width:80px}
+.pbs:last-child{border-right:none}
+.pbs-val{font-size:18px;font-weight:800;color:#fff;line-height:1;margin-bottom:2px}
+.pbs-lbl{font-size:9px;color:var(--muted);letter-spacing:.5px}
+.pbs-pct{font-size:9px;margin-top:2px}
+
+/* ── SCORE RING ── */
+.score-wrap{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.score-ring{position:relative;width:100px;height:100px;flex-shrink:0}
 .score-ring svg{transform:rotate(-90deg)}
-.score-ring-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.score-num{font-size:30px;font-weight:900;color:#fff;line-height:1}
-.score-max{font-size:11px;color:var(--muted)}
-.score-info{flex:1;min-width:150px}
-.score-grade{font-size:16px;font-weight:800;color:#fff;margin-bottom:4px}
-.score-sub{font-size:12px;color:var(--muted);line-height:1.7;margin-bottom:12px}
-.score-factors{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.sf{display:flex;justify-content:space-between;align-items:center;background:var(--bg);border-radius:6px;padding:6px 10px}
-.sf-k{font-size:11px;color:var(--muted)}
-.sf-v{font-size:12px;font-weight:700;color:#fff}
+.score-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.score-num{font-size:28px;font-weight:900;color:#fff;line-height:1}
+.score-sub2{font-size:10px;color:var(--muted)}
+.score-info{flex:1;min-width:140px}
+.score-grade{font-size:15px;font-weight:800;color:#fff;margin-bottom:3px}
+.score-desc{font-size:11px;color:var(--muted);line-height:1.7;margin-bottom:10px}
+.score-facts{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.sf{display:flex;justify-content:space-between;background:var(--bg);border-radius:5px;padding:5px 9px}
+.sf-k{font-size:10px;color:var(--muted)}
+.sf-v{font-size:11px;font-weight:700;color:#fff}
 
-/* ─── HERO CARDS ─── */
-.heroes-wrap{display:flex;flex-direction:column;gap:12px}
-.hero-section-lbl{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+/* ── RECRUITMENT SCORE ── */
+.recruit-card{background:linear-gradient(135deg,rgba(46,204,113,.08),rgba(46,204,113,.02));border:1px solid rgba(46,204,113,.2);border-radius:14px;padding:18px 20px}
+.recruit-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.recruit-title{font-size:10px;font-weight:700;color:var(--green);letter-spacing:1.5px;text-transform:uppercase;display:flex;align-items:center;gap:7px}
+.recruit-verdict{padding:4px 14px;border-radius:20px;font-size:12px;font-weight:800;letter-spacing:.5px}
+.rv-hire{background:rgba(46,204,113,.2);color:var(--green);border:1px solid rgba(46,204,113,.3)}
+.rv-watch{background:rgba(245,166,35,.2);color:var(--gold);border:1px solid rgba(245,166,35,.3)}
+.rv-pass{background:rgba(233,69,96,.15);color:var(--accent);border:1px solid rgba(233,69,96,.25)}
+.recruit-wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.recruit-score{font-size:42px;font-weight:900;line-height:1}
+.recruit-score.hire{color:var(--green)}
+.recruit-score.watch{color:var(--gold)}
+.recruit-score.pass{color:var(--accent)}
+.recruit-stars{font-size:16px;letter-spacing:2px;margin-top:2px}
+.recruit-bars{flex:1;display:flex;flex-direction:column;gap:6px}
+.rb{display:flex;align-items:center;gap:8px}
+.rb-label{font-size:10px;color:var(--muted);width:90px;flex-shrink:0}
+.rb-track{flex:1;background:rgba(255,255,255,.05);border-radius:3px;height:6px;overflow:hidden}
+.rb-fill{height:100%;border-radius:3px}
+.rb-val{font-size:10px;font-weight:700;color:var(--muted2);width:28px;text-align:right;flex-shrink:0}
+
+/* ── HEROES ── */
+.hero-section-lbl{font-size:9px;font-weight:700;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:6px}
 .hero-section-lbl::after{content:'';flex:1;height:1px;background:var(--border)}
-.heroes-row{display:grid;gap:10px}
-.heroes-home{grid-template-columns:repeat(6,1fr)}
-.heroes-bb{grid-template-columns:repeat(2,1fr)}
+.heroes-home{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+.heroes-bb{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
 @media(max-width:1200px){.heroes-home{grid-template-columns:repeat(3,1fr)}}
-@media(max-width:750px){.heroes-home{grid-template-columns:repeat(2,1fr)}}
-.hc{
-  background:var(--bg);border:1px solid var(--border);border-radius:12px;
-  padding:14px 10px;text-align:center;transition:.2s;position:relative;
-}
+@media(max-width:600px){.heroes-home{grid-template-columns:repeat(2,1fr)}}
+.hc{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:13px 9px;text-align:center;transition:.2s;position:relative}
 .hc:hover{transform:translateY(-2px);border-color:var(--border2)}
-.hc.hc-max{border-color:rgba(245,166,35,.35);background:rgba(245,166,35,.04)}
-.hc.hc-high{border-color:rgba(46,204,113,.2)}
-.hc.hc-low{border-color:rgba(233,69,96,.15)}
-.hc-maxbadge{
-  position:absolute;top:8px;right:8px;
-  font-size:9px;font-weight:800;background:var(--gold);color:#000;
-  padding:2px 5px;border-radius:3px;letter-spacing:.5px;
-}
-.hc-name{font-size:10px;color:var(--muted);margin-bottom:10px;font-weight:600;line-height:1.3;min-height:28px;display:flex;align-items:center;justify-content:center}
-.hc-ring{position:relative;width:64px;height:64px;margin:0 auto 10px}
+.hc.hmax{border-color:rgba(245,166,35,.35);background:rgba(245,166,35,.04)}
+.hc.hhigh{border-color:rgba(46,204,113,.2)}
+.hc.hlow{border-color:rgba(233,69,96,.15)}
+.hmax-badge{position:absolute;top:7px;right:7px;font-size:8px;font-weight:800;background:var(--gold);color:#000;padding:2px 5px;border-radius:3px;letter-spacing:.5px}
+.hc-name{font-size:9px;color:var(--muted);margin-bottom:9px;font-weight:600;line-height:1.3;min-height:26px;display:flex;align-items:center;justify-content:center}
+.hc-ring{position:relative;width:60px;height:60px;margin:0 auto 8px}
 .hc-ring canvas{position:absolute;top:0;left:0}
-.hc-ring-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.hc-lv{font-size:18px;font-weight:800;color:#fff;line-height:1}
+.hc-inner{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.hc-lv{font-size:16px;font-weight:800;color:#fff;line-height:1}
 .hc-mx{font-size:9px;color:var(--muted)}
-.hc-bar-wrap{height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;margin-top:4px}
-.hc-bar{height:100%;border-radius:2px;transition:width 1s ease}
+.hc-bar-wrap{height:3px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden}
+.hc-bar{height:100%;border-radius:2px}
 
-/* ─── LEGEND LEAGUE ─── */
-.legend-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.ls{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center}
-.ls.ls-active{border-color:rgba(245,166,35,.3);background:rgba(245,166,35,.04)}
-.ls-lbl{font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
-.ls-trophy{font-size:22px;font-weight:800;color:var(--gold);line-height:1}
-.ls-rank{font-size:11px;color:var(--muted2);margin-top:4px}
-.ls-season{font-size:10px;color:var(--muted);margin-top:2px}
+/* ── LEGEND ── */
+.legend-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.ls{background:var(--bg);border:1px solid var(--border);border-radius:9px;padding:12px;text-align:center}
+.ls.act{border-color:rgba(245,166,35,.3);background:rgba(245,166,35,.04)}
+.ls-lbl{font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px}
+.ls-trophy{font-size:20px;font-weight:800;color:var(--gold);line-height:1}
+.ls-rank{font-size:10px;color:var(--muted2);margin-top:3px}
+.ls-season{font-size:9px;color:var(--muted);margin-top:2px}
 .ls-none{font-size:12px;color:var(--muted);padding:8px 0}
-.legend-trophy-total{
-  background:linear-gradient(135deg,rgba(245,166,35,.08),rgba(245,166,35,.02));
-  border:1px solid rgba(245,166,35,.2);border-radius:10px;padding:14px;
-  text-align:center;margin-top:10px;
-}
-.ltt-val{font-size:24px;font-weight:800;color:var(--gold)}
-.ltt-lbl{font-size:10px;color:var(--muted);margin-top:3px}
+.legend-total{background:rgba(245,166,35,.06);border:1px solid rgba(245,166,35,.15);border-radius:8px;padding:10px;text-align:center;margin-top:8px;display:none}
+.lt-val{font-size:18px;font-weight:800;color:var(--gold)}
+.lt-lbl{font-size:9px;color:var(--muted);margin-top:2px}
 
-/* ─── RESEARCH BARS ─── */
-.res-cat{margin-bottom:14px}
+/* ── BUILDER BASE ── */
+.bb-card{background:rgba(52,152,219,.06);border:1px solid rgba(52,152,219,.18);border-radius:10px;padding:13px}
+.bb-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.bb-lv-badge{width:40px;height:40px;border-radius:8px;background:rgba(52,152,219,.15);border:1px solid rgba(52,152,219,.25);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0}
+.bb-lv-n{font-size:16px;font-weight:800;color:var(--blue);line-height:1}
+.bb-lv-l{font-size:8px;color:var(--muted);letter-spacing:.5px}
+.bb-title{font-size:13px;font-weight:700;color:#fff}
+.bb-sub{font-size:10px;color:var(--muted)}
+.bb-stats{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.bb-stat{text-align:center;background:var(--bg);border-radius:5px;padding:7px}
+.bb-stat-v{font-size:14px;font-weight:700;color:#fff}
+.bb-stat-l{font-size:9px;color:var(--muted)}
+
+/* ── RESEARCH BARS ── */
+.res-cat{margin-bottom:11px}
 .res-cat:last-child{margin-bottom:0}
-.res-header{display:flex;justify-content:space-between;margin-bottom:5px}
-.res-name{font-size:12px;font-weight:700;color:var(--muted2)}
-.res-count{font-size:11px;color:var(--muted)}
-.res-pct{font-size:12px;font-weight:700}
-.bar{background:rgba(255,255,255,.05);border-radius:4px;height:7px;overflow:hidden}
+.res-hdr{display:flex;justify-content:space-between;margin-bottom:4px;align-items:center}
+.res-name{font-size:11px;font-weight:700;color:var(--muted2)}
+.res-count{font-size:10px;color:var(--muted)}
+.res-pct{font-size:11px;font-weight:700;margin-left:6px}
+.bar{background:rgba(255,255,255,.05);border-radius:4px;height:6px;overflow:hidden}
 .bar-inner{height:100%;border-radius:4px;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
 .bg-gold{background:linear-gradient(90deg,#f5a623,#ffcd5e)}
 .bg-blue{background:linear-gradient(90deg,#3498db,#74b9ff)}
@@ -220,457 +216,490 @@ img{display:block}
 .bg-pink{background:linear-gradient(90deg,#fd79a8,#fab1c2)}
 .bg-accent{background:linear-gradient(90deg,#e94560,#ff7675)}
 
-/* ─── EQUIPMENT ─── */
-.equip-summary{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-.eq-summary-card{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center}
-.eq-summary-num{font-size:22px;font-weight:800;color:#fff;line-height:1}
-.eq-summary-lbl{font-size:10px;color:var(--muted);margin-top:4px}
-.eq-list{display:flex;flex-direction:column;gap:6px;max-height:340px;overflow-y:auto}
-.eq-item{
-  display:flex;align-items:center;gap:10px;
-  background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 12px;
-}
-.eq-item.epic{border-color:rgba(155,89,182,.25);background:rgba(155,89,182,.05)}
-.eq-item.rare{border-color:rgba(52,152,219,.2);background:rgba(52,152,219,.04)}
-.eq-rarity{font-size:9px;font-weight:800;letter-spacing:.5px;width:32px;flex-shrink:0}
-.eq-rarity.epic{color:var(--purple)}
-.eq-rarity.rare{color:var(--blue)}
-.eq-name{font-size:12px;color:var(--text);flex:1}
-.eq-lv{font-size:11px;font-weight:700;white-space:nowrap}
+/* ── EQUIPMENT ── */
+.equip-summary{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.eq-sum{background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:10px;text-align:center}
+.eq-sum-n{font-size:18px;font-weight:800;color:#fff}
+.eq-sum-l{font-size:9px;color:var(--muted);margin-top:3px}
+.eq-list{display:flex;flex-direction:column;gap:5px;max-height:300px;overflow-y:auto}
+.eq-item{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:7px 10px}
+.eq-item.epic{border-color:rgba(155,89,182,.22);background:rgba(155,89,182,.05)}
+.eq-item.rare{border-color:rgba(52,152,219,.18);background:rgba(52,152,219,.04)}
+.eq-rar{font-size:8px;font-weight:800;letter-spacing:.5px;width:28px;flex-shrink:0}
+.eq-rar.epic{color:var(--purple)}
+.eq-rar.rare{color:var(--blue)}
+.eq-name{font-size:11px;color:var(--text);flex:1}
+.eq-lv{font-size:10px;font-weight:700;white-space:nowrap}
 .eq-lv.maxed{color:var(--gold)}
 .eq-lv.high{color:var(--green)}
 .eq-lv.mid{color:var(--blue)}
-.eq-bar{flex:1;max-width:60px}
 
-/* ─── TROOPS TABS ─── */
-.troop-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
-.ttab{
-  padding:5px 12px;border-radius:6px;font-size:11px;font-weight:600;
-  cursor:pointer;border:1px solid var(--border);color:var(--muted);
-  background:transparent;transition:.15s;display:flex;align-items:center;gap:5px;
-}
+/* ── TROOPS ── */
+.troop-tabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px}
+.ttab{padding:5px 11px;border-radius:6px;font-size:10px;font-weight:600;cursor:pointer;border:1px solid var(--border);color:var(--muted);background:transparent;transition:.15s;display:flex;align-items:center;gap:4px}
 .ttab:hover{color:var(--muted2);border-color:var(--border2)}
 .ttab.act{background:var(--accent);color:#fff;border-color:var(--accent)}
-.ttab-cnt{font-size:10px;opacity:.7}
-.troops-grid{
-  display:grid;gap:6px;
-  grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
-}
-.ti{
-  background:var(--bg);border:1px solid var(--border);border-radius:8px;
-  padding:8px 12px;display:flex;align-items:center;justify-content:space-between;
-  transition:.15s;
-}
-.ti:hover{border-color:var(--border2)}
-.ti.maxed{border-color:rgba(245,166,35,.25);background:rgba(245,166,35,.03)}
-.ti-name{font-size:11px;color:var(--muted2);font-weight:500}
-.ti-lv{font-size:12px;font-weight:700}
-.ti-lv.maxed{color:var(--gold)}
-.ti-lv.high{color:var(--green)}
-.ti-lv.mid{color:var(--blue)}
-.ti-lv.low{color:var(--accent)}
+.ttab-cnt{font-size:9px;opacity:.7}
+.troops-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:5px}
+.ti2{background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:7px 11px;display:flex;align-items:center;justify-content:space-between;transition:.15s}
+.ti2:hover{border-color:var(--border2)}
+.ti2.maxed{border-color:rgba(245,166,35,.22);background:rgba(245,166,35,.03)}
+.ti2-name{font-size:10px;color:var(--muted2);font-weight:500}
+.ti2-lv{font-size:11px;font-weight:700}
+.ti2-lv.maxed{color:var(--gold)}
+.ti2-lv.high{color:var(--green)}
+.ti2-lv.mid{color:var(--blue)}
+.ti2-lv.low{color:var(--accent)}
 
-/* ─── ACTIVITY / STATS ─── */
-.act-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
-.act-item{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px;text-align:center}
-.act-val{font-size:20px;font-weight:800;color:#fff;line-height:1;margin-bottom:4px}
-.act-lbl{font-size:10px;color:var(--muted);letter-spacing:.5px}
+/* ── ACT ── */
+.act-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px}
+.act-item{background:var(--bg);border:1px solid var(--border);border-radius:9px;padding:12px;text-align:center}
+.act-val{font-size:18px;font-weight:800;color:#fff;line-height:1;margin-bottom:3px}
+.act-lbl{font-size:9px;color:var(--muted);letter-spacing:.5px}
 
-/* ─── ACHIEVEMENTS ─── */
-.ach-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
-.ach{background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:12px}
-.ach-name{font-size:12px;font-weight:600;color:var(--text);margin-bottom:5px}
-.ach-stars{font-size:11px;letter-spacing:1px;margin-bottom:5px}
-.ach-bar{background:rgba(255,255,255,.05);border-radius:3px;height:4px;overflow:hidden;margin-bottom:4px}
+/* ── ACH ── */
+.ach-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:7px}
+.ach{background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:11px}
+.ach-name{font-size:11px;font-weight:600;color:var(--text);margin-bottom:4px}
+.ach-stars{font-size:10px;letter-spacing:1px;margin-bottom:4px}
+.ach-bar{background:rgba(255,255,255,.05);border-radius:3px;height:3px;overflow:hidden;margin-bottom:3px}
 .ach-bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--gold),#ffcd5e)}
-.ach-val{font-size:10px;color:var(--muted)}
+.ach-val{font-size:9px;color:var(--muted)}
 
-/* ─── BUILDER BASE ─── */
-.bb-card{background:linear-gradient(135deg,rgba(52,152,219,.08),rgba(52,152,219,.02));border:1px solid rgba(52,152,219,.2);border-radius:10px;padding:14px}
-.bb-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
-.bb-level{width:44px;height:44px;border-radius:10px;background:rgba(52,152,219,.15);border:1px solid rgba(52,152,219,.25);display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0}
-.bb-level-num{font-size:18px;font-weight:800;color:var(--blue);line-height:1}
-.bb-level-lbl{font-size:8px;color:var(--muted);letter-spacing:.5px}
-.bb-name{font-size:14px;font-weight:700;color:#fff}
-.bb-sub{font-size:11px;color:var(--muted)}
-.bb-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.bb-stat{text-align:center;background:var(--bg);border-radius:6px;padding:8px}
-.bb-stat-v{font-size:16px;font-weight:700;color:#fff}
-.bb-stat-l{font-size:10px;color:var(--muted)}
+/* ── VERIFIED ── */
+.vb{display:none;background:rgba(46,204,113,.07);border:1px solid rgba(46,204,113,.22);border-radius:9px;padding:11px 14px;align-items:center;gap:9px;margin-bottom:14px}
+.vb.show{display:flex}
 
-/* ─── VERIFIED BANNER ─── */
-.verified-banner{
-  background:rgba(46,204,113,.08);border:1px solid rgba(46,204,113,.25);
-  border-radius:10px;padding:12px 16px;display:none;align-items:center;gap:10px;margin-bottom:16px;
+/* ── COMPARE MODE ── */
+#compareView{display:none}
+#compareView.show{display:block}
+.compare-header{background:linear-gradient(135deg,rgba(52,152,219,.1),rgba(52,152,219,.03));border:1px solid rgba(52,152,219,.2);border-radius:14px;padding:18px 24px;margin-bottom:16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.ch-player{flex:1;min-width:160px}
+.ch-name{font-size:20px;font-weight:800;color:#fff;margin-bottom:2px}
+.ch-tag{font-size:11px;color:var(--muted);font-family:monospace}
+.ch-th{font-size:13px;font-weight:700;color:var(--gold)}
+.ch-vs{font-size:28px;font-weight:900;color:var(--muted);flex-shrink:0}
+.ch-winner{text-align:right;flex:1;min-width:160px}
+.winner-badge{display:inline-block;padding:6px 16px;border-radius:20px;font-size:12px;font-weight:800;letter-spacing:.5px}
+.wb-p1{background:rgba(46,204,113,.15);color:var(--green);border:1px solid rgba(46,204,113,.3)}
+.wb-p2{background:rgba(52,152,219,.15);color:#5dade2;border:1px solid rgba(52,152,219,.3)}
+.wb-tie{background:rgba(245,166,35,.15);color:var(--gold);border:1px solid rgba(245,166,35,.3)}
+.compare-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+@media(max-width:700px){.compare-cols{grid-template-columns:1fr}}
+.cmp-sc{border-radius:14px;padding:16px;border:1px solid var(--border)}
+.cmp-sc.p1{background:rgba(46,204,113,.04);border-color:rgba(46,204,113,.18)}
+.cmp-sc.p2{background:rgba(52,152,219,.04);border-color:rgba(52,152,219,.18)}
+.cmp-title{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px}
+.cmp-p1-title{color:var(--green)}
+.cmp-p2-title{color:#5dade2}
+.diff-table{width:100%;border-collapse:collapse;font-size:12px}
+.diff-table th{padding:8px 12px;text-align:left;font-size:10px;font-weight:700;color:var(--muted);letter-spacing:1px;text-transform:uppercase;background:var(--bg);border-bottom:1px solid var(--border)}
+.diff-table td{padding:9px 12px;border-bottom:1px solid rgba(255,255,255,.04)}
+.diff-table tr:last-child td{border-bottom:none}
+.diff-table tr:hover td{background:rgba(255,255,255,.02)}
+.diff-metric{color:var(--muted2);font-weight:600}
+.diff-p1{color:#fff;font-weight:700;text-align:center}
+.diff-p2{color:#fff;font-weight:700;text-align:center}
+.diff-win{color:var(--green) !important}
+.diff-lose{color:var(--accent) !important}
+.diff-same{color:var(--muted2) !important}
+.diff-bar-cell{padding:6px 12px !important}
+.diff-bars{display:flex;gap:4px;align-items:center;height:20px}
+.diff-bar-left{flex:1;background:rgba(255,255,255,.05);border-radius:3px;height:8px;overflow:hidden;display:flex;justify-content:flex-end}
+.diff-bar-left-fill{height:100%;background:linear-gradient(90deg,transparent,var(--green));border-radius:3px;transition:width 1s ease}
+.diff-bar-right{flex:1;background:rgba(255,255,255,.05);border-radius:3px;height:8px;overflow:hidden}
+.diff-bar-right-fill{height:100%;background:linear-gradient(90deg,#5dade2,transparent);border-radius:3px;transition:width 1s ease}
+.diff-center{width:40px;text-align:center;font-size:9px;color:var(--muted);flex-shrink:0}
+.cmp-hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.cmp-hero{display:flex;justify-content:space-between;align-items:center;background:var(--bg);border-radius:6px;padding:7px 10px;font-size:11px}
+.cmp-hero-name{color:var(--muted2)}
+.cmp-hero-lv{font-weight:700}
+.win{color:var(--green)}
+.lose{color:var(--accent)}
+.same{color:var(--muted2)}
+
+/* ── DIVIDER ── */
+.divider{height:1px;background:var(--border);margin:12px 0}
+.empty-msg{color:var(--muted);font-size:12px;text-align:center;padding:16px 0}
+.mb0{margin-bottom:0}
+
+/* ── RAW ── */
+.raw-toggle-btn{cursor:pointer;user-select:none}
+pre.raw{background:var(--bg);border-radius:7px;padding:14px;font-size:10px;color:#6060a0;overflow:auto;max-height:320px;line-height:1.6;border:1px solid var(--border);margin-top:8px}
+
+/* ── MOBILE ── */
+@media(max-width:600px){
+  .topbar{padding:10px 14px;flex-wrap:wrap;gap:8px}
+  .topbar-mid{margin:0;max-width:100%;order:2;flex:0 0 100%}
+  .main{padding:14px}
+  .profile-banner{padding:14px}
+  .pb-stats{border-left:none;width:100%;justify-content:space-around;margin-left:0;margin-top:10px}
+  .pbs{padding:0 10px}
 }
-.verified-banner.show{display:flex}
-.vb-icon{font-size:18px}
-.vb-text{font-size:13px;font-weight:600;color:var(--green)}
-.vb-sub{font-size:11px;color:var(--muted)}
-
-/* ─── RAW JSON ─── */
-.raw-toggle{cursor:pointer;user-select:none}
-.raw-toggle:hover .sc-title{color:var(--muted2)}
-pre.raw{background:var(--bg);border-radius:8px;padding:16px;font-size:11px;color:#7070a0;overflow:auto;max-height:360px;line-height:1.6;border:1px solid var(--border)}
-
-/* ─── MISC ─── */
-.mb18{margin-bottom:18px}
-.full{margin-bottom:18px}
-.divider{height:1px;background:var(--border);margin:14px 0}
-.empty-msg{color:var(--muted);font-size:13px;text-align:center;padding:20px 0}
 </style>
 </head>
 <body>
 
 <!-- ══ TOPBAR ══ -->
 <div class="topbar">
-  <div class="logo">
-    Loot<span>bar</span>
-    <div class="logo-badge">COC SCANNER</div>
-  </div>
-  <div class="topbar-center">
-    <input id="tagInput" class="tag-input" placeholder="#QPGP88020" autocomplete="off"
-      onkeydown="if(event.key==='Enter') scan()"/>
-    <button class="btn btn-primary" id="scanBtn" onclick="scan()">
-      <span id="scanIcon">⚡</span> Scan
-    </button>
+  <div class="logo">Loot<span>bar</span> <div class="logo-v">v2</div></div>
+  <div class="topbar-mid">
+    <input id="tagInput" class="ti" placeholder="#QPGP88020" autocomplete="off" onkeydown="if(event.key==='Enter')scan()"/>
+    <button class="btn btn-primary" id="scanBtn" onclick="scan()"><span id="scanIcon">⚡</span> Scan</button>
+    <button class="btn btn-compare" id="compareBtn" onclick="toggleCompare()" style="display:none" title="Compare with another player">⚖ Compare</button>
     <button class="btn btn-ghost" id="clearBtn" onclick="clear_()" style="display:none">✕</button>
   </div>
   <div class="topbar-right">
-    <div class="status-pip" id="pip"></div>
-    <div class="status-txt" id="pipTxt">Ready</div>
+    <div class="pip" id="pip"></div>
+    <div class="pip-txt" id="pipTxt">Ready</div>
   </div>
+</div>
+
+<!-- ══ COMPARE INPUT STRIP ══ -->
+<div class="compare-strip" id="compareStrip">
+  <span class="cs-label">⚖ COMPARE WITH</span>
+  <input id="tag2Input" class="ti" style="max-width:220px" placeholder="Second player tag #..." autocomplete="off" onkeydown="if(event.key==='Enter')runCompare()"/>
+  <button class="btn btn-primary" onclick="runCompare()" style="padding:7px 16px;font-size:12px">Compare</button>
+  <div class="vs-badge">VS</div>
+  <span style="font-size:11px;color:var(--muted)">Side-by-side player comparison</span>
 </div>
 
 <!-- ══ VERIFY STRIP ══ -->
 <div class="verify-strip" id="verifyStrip">
-  <span class="vs-label">🔐 VERIFY OWNERSHIP</span>
-  <input id="vToken" class="vs-input" placeholder="In-game: Settings → More Settings → API Token → copy here"/>
+  <span class="vs-label">🔐 Verify Ownership</span>
+  <input id="vToken" class="vs-in" placeholder="Settings → More Settings → API Token → copy here"/>
   <button class="btn btn-ghost" onclick="verify_()" style="font-size:12px;padding:6px 14px">Verify</button>
 </div>
 
 <!-- ══ MAIN ══ -->
 <div class="main">
 
-  <!-- Empty -->
+  <!-- States -->
   <div class="state show" id="stEmpty">
-    <div class="state-icon">⚔️</div>
-    <div class="state-title">Enter a Player Tag to scan</div>
-    <div class="state-desc">Type any CoC player tag in the bar above and press Enter or click Scan.<br/><br/>
-      Find your tag in-game → tap your profile picture → copy the <strong style="color:var(--muted2)">#TAG</strong> shown below your name.</div>
+    <div class="st-icon">⚔️</div>
+    <div class="st-title">Enter a Player Tag to scan</div>
+    <div class="st-desc">Type any CoC player tag above and hit Scan or press Enter.<br/><br/>
+      Find your tag in-game → tap your profile picture → copy the <strong style="color:var(--muted2)">#TAG</strong> below your name.</div>
   </div>
-
-  <!-- Loading -->
   <div class="state" id="stLoad">
     <div class="spinner"></div>
-    <div class="state-title" id="loadMsg">Fetching account data…</div>
+    <div class="st-title" id="loadMsg">Fetching account data…</div>
   </div>
-
-  <!-- Error -->
   <div class="state" id="stErr">
     <div class="err-box" id="errBox"></div>
   </div>
 
-  <!-- Dashboard -->
+  <!-- ══ SINGLE PLAYER DASHBOARD ══ -->
   <div id="dash">
 
     <!-- Verified banner -->
-    <div class="verified-banner" id="vBanner">
-      <div class="vb-icon">✅</div>
-      <div><div class="vb-text">Ownership Verified</div><div class="vb-sub">Seller confirmed as owner via Supercell verifytoken API</div></div>
+    <div class="vb" id="vBanner">
+      <span style="font-size:18px">✅</span>
+      <div><div style="font-size:13px;font-weight:600;color:var(--green)">Ownership Verified</div><div style="font-size:10px;color:var(--muted)">Confirmed via Supercell verifytoken API</div></div>
     </div>
 
-    <!-- ── PROFILE BANNER ── -->
-    <div class="profile-banner mb18" id="profileBanner">
-      <img id="clanBadge" class="pb-clan-badge" src="" alt="clan"/>
-      <div class="pb-th">
-        <div class="pb-th-num" id="pbTH">—</div>
-        <div class="pb-th-lbl">TOWN HALL</div>
-      </div>
-      <div class="pb-info">
-        <div class="pb-name" id="pbName">—</div>
-        <div class="pb-tag" id="pbTag">—</div>
-        <div class="pb-pills" id="pbPills"></div>
-      </div>
-      <div class="pb-stats">
-        <div class="pbs"><div class="pbs-val" id="pbLevel">—</div><div class="pbs-lbl">EXP LVL</div></div>
-        <div class="pbs"><div class="pbs-val" id="pbTrophies">—</div><div class="pbs-lbl">TROPHIES</div></div>
-        <div class="pbs"><div class="pbs-val" id="pbBest">—</div><div class="pbs-lbl">BEST</div></div>
-        <div class="pbs"><div class="pbs-val" id="pbWar">—</div><div class="pbs-lbl">WAR ⭐</div></div>
-        <div class="pbs"><div class="pbs-val" id="pbCapital">—</div><div class="pbs-lbl">CAPITAL</div></div>
-      </div>
-    </div>
+    <!-- Profile -->
+    <div class="profile-banner full" id="profBanner"></div>
 
-    <!-- ── ROW 1: Score | Legend League | Builder Base ── -->
-    <div class="g-347">
-
-      <!-- Score -->
+    <!-- Row 1: Score | Legend | Builder Base -->
+    <div class="g347">
       <div class="sc">
-        <div class="sc-title"><div class="sc-dot" style="background:var(--accent)"></div>Account Value Score</div>
+        <div class="sc-title"><div class="sc-dot" style="background:var(--accent)"></div>Account Score</div>
         <div class="score-wrap">
           <div class="score-ring">
-            <svg width="110" height="110" viewBox="0 0 110 110">
-              <circle cx="55" cy="55" r="46" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="10"/>
-              <circle id="scoreArc" cx="55" cy="55" r="46" fill="none" stroke="var(--accent)" stroke-width="10"
-                stroke-linecap="round" stroke-dasharray="289" stroke-dashoffset="289" style="transition:stroke-dashoffset 1.2s ease"/>
+            <svg width="100" height="100" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="42" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="9"/>
+              <circle id="scoreArc" cx="50" cy="50" r="42" fill="none" stroke="var(--accent)" stroke-width="9" stroke-linecap="round" stroke-dasharray="264" stroke-dashoffset="264" style="transition:stroke-dashoffset 1.2s ease"/>
             </svg>
-            <div class="score-ring-inner">
-              <div class="score-num" id="scoreNum">—</div>
-              <div class="score-max">/100</div>
-            </div>
+            <div class="score-inner"><div class="score-num" id="scoreNum">—</div><div class="score-sub2">/100</div></div>
           </div>
           <div class="score-info">
             <div class="score-grade" id="scoreGrade">—</div>
-            <div class="score-sub" id="scoreSub">—</div>
-            <div class="score-factors" id="scoreFactors"></div>
+            <div class="score-desc" id="scoreDesc">—</div>
+            <div class="score-facts" id="scoreFacts"></div>
           </div>
         </div>
       </div>
-
-      <!-- Legend League -->
       <div class="sc">
-        <div class="sc-title"><div class="sc-dot" style="background:var(--gold)"></div>Legend League<span class="sc-right" id="legendTotalLabel"></span></div>
+        <div class="sc-title"><div class="sc-dot" style="background:var(--gold)"></div>Legend League<span class="sc-right" id="legendTotalLbl"></span></div>
         <div class="legend-grid" id="legendGrid"></div>
-        <div class="legend-trophy-total" id="legendTotal" style="display:none">
-          <div class="ltt-val" id="lttVal">—</div>
-          <div class="ltt-lbl">Total Legend Trophies Earned</div>
-        </div>
+        <div class="legend-total" id="legendTotal"><div class="lt-val" id="ltVal">—</div><div class="lt-lbl">Total Legend Trophies</div></div>
       </div>
-
-      <!-- Builder Base -->
       <div class="sc">
         <div class="sc-title"><div class="sc-dot" style="background:var(--blue)"></div>Builder Base</div>
         <div id="bbContent"></div>
       </div>
-
     </div>
 
-    <!-- ── ROW 2: Heroes (full width) ── -->
+    <!-- Row 2: Heroes -->
     <div class="sc full">
-      <div class="sc-title">
-        <div class="sc-dot" style="background:var(--accent)"></div>Heroes
-        <span class="sc-right" id="heroSummary"></span>
-      </div>
-      <div class="heroes-wrap" id="heroesWrap"></div>
+      <div class="sc-title"><div class="sc-dot" style="background:var(--accent)"></div>Heroes<span class="sc-right" id="heroSummary"></span></div>
+      <div id="heroesWrap"></div>
     </div>
 
-    <!-- ── ROW 3: Equipment | Research ── -->
+    <!-- Row 3: Recruitment Score | Activity & Clan -->
     <div class="g2">
-
-      <!-- Equipment -->
-      <div class="sc">
-        <div class="sc-title"><div class="sc-dot" style="background:var(--purple)"></div>Hero Equipment<span class="sc-right" id="equipSummary"></span></div>
-        <div class="equip-summary" id="equipSummaryCards"></div>
-        <div class="eq-list" id="equipList"></div>
-      </div>
-
-      <!-- Research -->
-      <div class="sc">
-        <div class="sc-title"><div class="sc-dot" style="background:var(--cyan)"></div>Research by Category<span class="sc-right" id="researchOverall"></span></div>
-        <div id="resBars"></div>
-      </div>
-
-    </div>
-
-    <!-- ── ROW 4: Troops (full width) ── -->
-    <div class="sc full">
-      <div class="sc-title"><div class="sc-dot" style="background:var(--cyan)"></div>Troops & Spells</div>
-      <div class="troop-tabs" id="troopTabs"></div>
-      <div class="troops-grid" id="troopGrid"></div>
-    </div>
-
-    <!-- ── ROW 5: Achievements | Activity ── -->
-    <div class="g2">
-      <div class="sc">
-        <div class="sc-title"><div class="sc-dot" style="background:var(--green)"></div>Key Achievements</div>
-        <div class="ach-grid" id="achGrid"></div>
+      <div class="recruit-card">
+        <div class="recruit-header">
+          <div class="recruit-title"><div class="sc-dot" style="background:var(--green)"></div>Clan Recruitment Score</div>
+          <div class="recruit-verdict" id="recruitVerdict"></div>
+        </div>
+        <div class="recruit-wrap">
+          <div>
+            <div class="recruit-score" id="recruitScore">—</div>
+            <div class="recruit-stars" id="recruitStars"></div>
+          </div>
+          <div class="recruit-bars" id="recruitBars"></div>
+        </div>
       </div>
       <div class="sc">
-        <div class="sc-title"><div class="sc-dot" style="background:var(--orange)"></div>Activity & Stats</div>
+        <div class="sc-title"><div class="sc-dot" style="background:var(--orange)"></div>Activity & Clan</div>
         <div class="act-grid" id="actGrid"></div>
         <div class="divider"></div>
         <div id="clanCard"></div>
       </div>
     </div>
 
-    <!-- ── Raw JSON ── -->
-    <div class="sc full raw-toggle" onclick="toggleRaw()">
-      <div class="sc-title" style="cursor:pointer">
-        <div class="sc-dot" style="background:var(--muted)"></div>Raw API Response
-        <span class="sc-right" id="rawToggle">▼ Show</span>
+    <!-- Row 4: Equipment | Research -->
+    <div class="g2">
+      <div class="sc">
+        <div class="sc-title"><div class="sc-dot" style="background:var(--purple)"></div>Hero Equipment<span class="sc-right" id="equipSummary"></span></div>
+        <div class="equip-summary" id="equipSumCards"></div>
+        <div class="eq-list" id="equipList"></div>
       </div>
-      <div id="rawWrap" style="display:none">
-        <pre class="raw" id="rawPre"></pre>
+      <div class="sc">
+        <div class="sc-title"><div class="sc-dot" style="background:var(--cyan)"></div>Research Progress<span class="sc-right" id="researchOverall"></span></div>
+        <div id="resBars"></div>
+      </div>
+    </div>
+
+    <!-- Row 5: Troops -->
+    <div class="sc full">
+      <div class="sc-title"><div class="sc-dot" style="background:var(--cyan)"></div>Troops & Spells</div>
+      <div class="troop-tabs" id="troopTabs"></div>
+      <div class="troops-grid" id="troopGrid"></div>
+    </div>
+
+    <!-- Row 6: Achievements | Raw JSON -->
+    <div class="g2">
+      <div class="sc">
+        <div class="sc-title"><div class="sc-dot" style="background:var(--green)"></div>Key Achievements</div>
+        <div class="ach-grid" id="achGrid"></div>
+      </div>
+      <div class="sc raw-toggle-btn" onclick="toggleRaw()">
+        <div class="sc-title"><div class="sc-dot" style="background:var(--muted)"></div>Raw API Response<span class="sc-right" id="rawToggle">▼ Show</span></div>
+        <div id="rawWrap" style="display:none"><pre class="raw" id="rawPre"></pre></div>
       </div>
     </div>
 
   </div><!-- /#dash -->
+
+  <!-- ══ COMPARE VIEW ══ -->
+  <div id="compareView">
+    <div class="compare-header" id="compareHeader"></div>
+    <div class="compare-cols">
+      <div>
+        <div class="cmp-sc p1"><div class="cmp-title cmp-p1-title">Player 1</div><div id="cmpHeroes1"></div></div>
+      </div>
+      <div>
+        <div class="cmp-sc p2"><div class="cmp-title cmp-p2-title">Player 2</div><div id="cmpHeroes2"></div></div>
+      </div>
+    </div>
+    <div class="sc full mb0">
+      <div class="sc-title"><div class="sc-dot" style="background:var(--blue)"></div>Head-to-Head Comparison</div>
+      <div style="overflow-x:auto"><table class="diff-table" id="diffTable"></table></div>
+    </div>
+  </div>
+
 </div><!-- /.main -->
 
 <script>
-/* ════════════════════════════════
-   DATA & STATE
-════════════════════════════════ */
-let P = null; // player data
-let troopGroups = {}, activeTroopTab = '';
-
-/* ════════════════════════════════
-   PET / SUPER TROOP CLASSIFICATION
-════════════════════════════════ */
-const PET_NAMES = new Set(['L.A.S.S.I','Electro Owl','Mighty Yak','Unicorn','Frosty','Diggy','Poison Lizard','Phoenix','Spirit Fox','Angry Jelly','Sneezy','Greedy Raven']);
+/* ═══════════════════════════════════════
+   CONSTANTS
+═══════════════════════════════════════ */
+const PET_NAMES   = new Set(['L.A.S.S.I','Electro Owl','Mighty Yak','Unicorn','Frosty','Diggy','Poison Lizard','Phoenix','Spirit Fox','Angry Jelly','Sneezy','Greedy Raven']);
 const SIEGE_NAMES = new Set(['Wall Wrecker','Battle Blimp','Stone Slammer','Siege Barracks','Log Launcher','Flame Flinger','Battle Drill','Troop Launcher','Furnace','Sky Wagon']);
-const SUPER_PREFIXES = ['Super ','Sneaky ','Rocket ','Inferno ','Ice '];
-const DARK_ELIXIR_TROOPS = new Set(['Minion','Hog Rider','Valkyrie','Golem','Witch','Lava Hound','Bowler','Headhunter','Apprentice Warden','Ice Golem']);
+const SUPER_PFX   = ['Super ','Sneaky ','Rocket ','Inferno ','Ice Hound','Apprentice '];
+const DARK_TROOPS = new Set(['Minion','Hog Rider','Valkyrie','Golem','Witch','Lava Hound','Bowler','Headhunter','Apprentice Warden','Ice Golem']);
 
 function classifyTroop(name) {
-  if (PET_NAMES.has(name)) return 'pets';
+  if (PET_NAMES.has(name))   return 'pets';
   if (SIEGE_NAMES.has(name)) return 'siege';
-  if (SUPER_PREFIXES.some(p => name.startsWith(p))) return 'super';
-  if (DARK_ELIXIR_TROOPS.has(name)) return 'dark';
+  if (SUPER_PFX.some(p => name.startsWith(p))) return 'super';
+  if (DARK_TROOPS.has(name)) return 'dark';
   return 'elixir';
 }
 
-/* ════════════════════════════════
+/* ═══════════════════════════════════════
+   STATE
+═══════════════════════════════════════ */
+let P = null, troopGroups = {}, activeTab = '';
+let compareMode = false;
+
+/* ═══════════════════════════════════════
    SCAN
-════════════════════════════════ */
+═══════════════════════════════════════ */
 async function scan() {
-  const tag = document.getElementById('tagInput').value.trim();
+  const tag = qs('#tagInput').value.trim();
   if (!tag) return;
-  setState('load');
+  setState('load', 'Fetching account data…');
   try {
     const r    = await fetch(`/api/player?tag=${encodeURIComponent(tag)}`);
     const data = await r.json();
     if (!r.ok) { setState('err', errMsg(r.status, data.message||data.error||'')); return; }
     P = data;
+    // hide compare view, show single
+    qs('#compareView').classList.remove('show');
     setState('dash');
     render(data);
-    document.getElementById('clearBtn').style.display = 'flex';
-    document.getElementById('verifyStrip').classList.add('show');
+    qs('#clearBtn').style.display = 'flex';
+    qs('#compareBtn').style.display = 'flex';
+    qs('#verifyStrip').classList.add('show');
     pip(true, data.name);
-  } catch(e) { setState('err', 'Network error — is the server running? ' + e.message); }
+  } catch(e) { setState('err', 'Network error: ' + e.message); }
 }
 
 async function verify_() {
-  const tag   = document.getElementById('tagInput').value.trim();
-  const token = document.getElementById('vToken').value.trim();
-  if (!token) return alert('Paste the in-game API token first');
+  const tag   = qs('#tagInput').value.trim();
+  const token = qs('#vToken').value.trim();
+  if (!token) return alert('Paste the in-game token first');
   try {
-    const r    = await fetch('/api/verify', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({tag,token}) });
+    const r    = await fetch('/api/verify', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({tag,token}) });
     const data = await r.json();
-    if (data.status === 'ok') {
-      document.getElementById('vBanner').classList.add('show');
-    } else {
-      alert('Verification failed — token expired. Get a fresh one from game settings.');
-    }
-  } catch(e) { alert('Error: ' + e.message); }
+    if (data.status === 'ok') qs('#vBanner').classList.add('show');
+    else alert('Verification failed — token expired. Re-copy from game settings.');
+  } catch(e) { alert('Error: '+e.message); }
 }
 
 function clear_() {
-  P = null;
-  document.getElementById('tagInput').value = '';
-  document.getElementById('vToken').value   = '';
-  document.getElementById('clearBtn').style.display = 'none';
-  document.getElementById('verifyStrip').classList.remove('show');
-  document.getElementById('vBanner').classList.remove('show');
+  P = null; activeTab = '';
+  qs('#tagInput').value = '';
+  qs('#tag2Input').value = '';
+  qs('#vToken').value = '';
+  qs('#clearBtn').style.display = 'none';
+  qs('#compareBtn').style.display = 'none';
+  qs('#compareBtn').classList.remove('active');
+  qs('#verifyStrip').classList.remove('show');
+  qs('#compareStrip').classList.remove('show');
+  qs('#vBanner').classList.remove('show');
+  qs('#compareView').classList.remove('show');
+  compareMode = false;
   setState('empty');
   pip(false, 'Ready');
 }
 
-/* ════════════════════════════════
-   RENDER ALL
-════════════════════════════════ */
+/* ═══════════════════════════════════════
+   COMPARE
+═══════════════════════════════════════ */
+function toggleCompare() {
+  compareMode = !compareMode;
+  qs('#compareBtn').classList.toggle('active', compareMode);
+  qs('#compareStrip').classList.toggle('show', compareMode);
+  if (!compareMode) qs('#compareView').classList.remove('show');
+}
+
+async function runCompare() {
+  const tag1 = qs('#tagInput').value.trim();
+  const tag2 = qs('#tag2Input').value.trim();
+  if (!tag1 || !tag2) return alert('Enter both player tags');
+  setState('load', 'Comparing accounts…');
+  try {
+    const r    = await fetch(`/api/compare?tag1=${encodeURIComponent(tag1)}&tag2=${encodeURIComponent(tag2)}`);
+    const data = await r.json();
+    if (!r.ok) { setState('err', data.error||'Compare failed'); return; }
+    // Show single dash for P1, then show compare view below
+    P = data.player1;
+    setState('dash');
+    render(data.player1);
+    renderCompare(data.player1, data.player2);
+    qs('#compareView').classList.add('show');
+    pip(true, `${data.player1.name} vs ${data.player2.name}`);
+  } catch(e) { setState('err', 'Network error: '+e.message); }
+}
+
+/* ═══════════════════════════════════════
+   RENDER SINGLE PLAYER
+═══════════════════════════════════════ */
 function render(p) {
   renderProfile(p);
   renderScore(p);
   renderLegend(p);
   renderBuilderBase(p);
-  renderHeroes(p);
+  renderHeroes(p, 'heroesWrap');
+  renderRecruitScore(p);
+  renderActivity(p);
   renderEquipment(p);
   renderResearch(p);
   renderTroops(p);
   renderAchievements(p);
-  renderActivity(p);
-  document.getElementById('rawPre').textContent = JSON.stringify(p,null,2);
+  qs('#rawPre').textContent = JSON.stringify(p, null, 2);
 }
 
 /* ── PROFILE ── */
 function renderProfile(p) {
-  // Clan badge
-  const badgeEl = document.getElementById('clanBadge');
-  if (p.clan?.badgeUrls?.small) {
-    badgeEl.src = p.clan.badgeUrls.small;
-    badgeEl.style.display = 'block';
-  } else { badgeEl.style.display = 'none'; }
-
-  qs('#pbTH').textContent       = p.townHallLevel;
-  qs('#pbName').textContent      = p.name;
-  qs('#pbTag').textContent       = p.tag;
-  qs('#pbLevel').textContent     = p.expLevel;
-  qs('#pbTrophies').textContent  = fmt(p.trophies);
-  qs('#pbBest').textContent      = fmt(p.bestTrophies);
-  qs('#pbWar').textContent       = fmt(p.warStars);
-  qs('#pbCapital').textContent   = fmtK(p.clanCapitalContributions||0);
+  const badge = p.clan?.badgeUrls?.small
+    ? `<img class="pb-clan" src="${p.clan.badgeUrls.small}" width="56" height="56" alt="clan"/>`
+    : '';
 
   const pills = [];
   if (p.league)   pills.push(`<div class="pill pill-gold">🏆 ${p.league.name}</div>`);
-  if (p.clan)     pills.push(`<div class="pill pill-blue">🛡 ${p.clan.name} (Lv${p.clan.clanLevel})</div>`);
-  if (p.role)     pills.push(`<div class="pill pill-purple">${capitalize(p.role)}</div>`);
+  if (p.clan)     pills.push(`<div class="pill pill-blue">🛡 ${p.clan.name}</div>`);
+  if (p.role)     pills.push(`<div class="pill pill-purple">${cap(p.role)}</div>`);
   if (p.legendStatistics?.currentSeason) pills.push(`<div class="pill pill-gold">👑 Legend</div>`);
-  if (p.townHallWeaponLevel) pills.push(`<div class="pill pill-green">Giga Weapon Lv${p.townHallWeaponLevel}</div>`);
-  qs('#pbPills').innerHTML = pills.join('');
+  if (p.townHallWeaponLevel) pills.push(`<div class="pill pill-green">Giga Lv${p.townHallWeaponLevel}</div>`);
+  if (p.warPreference==='in') pills.push(`<div class="pill pill-red">⚔ War In</div>`);
+
+  const thPct   = pctBadge(trophyPct(p.trophies));
+  const warPct  = pctBadge(warStarPct(p.warStars));
+
+  qs('#profBanner').innerHTML = `
+    ${badge}
+    <div class="pb-th"><div class="pb-th-n">${p.townHallLevel}</div><div class="pb-th-l">TOWN HALL</div></div>
+    <div class="pb-info">
+      <div class="pb-name">${p.name}</div>
+      <div class="pb-tag">${p.tag}</div>
+      <div class="pb-pills">${pills.join('')}</div>
+    </div>
+    <div class="pb-stats">
+      <div class="pbs"><div class="pbs-val">${p.expLevel}</div><div class="pbs-lbl">EXP LVL</div></div>
+      <div class="pbs"><div class="pbs-val">${fmt(p.trophies)}</div><div class="pbs-lbl">TROPHIES</div><div class="pbs-pct">${thPct}</div></div>
+      <div class="pbs"><div class="pbs-val">${fmt(p.bestTrophies)}</div><div class="pbs-lbl">BEST</div></div>
+      <div class="pbs"><div class="pbs-val">${fmt(p.warStars)}</div><div class="pbs-lbl">WAR ⭐</div><div class="pbs-pct">${warPct}</div></div>
+      <div class="pbs"><div class="pbs-val">${fmtK(p.clanCapitalContributions||0)}</div><div class="pbs-lbl">CAPITAL</div></div>
+    </div>`;
 }
 
 /* ── SCORE ── */
 function renderScore(p) {
-  const heroes   = (p.heroes||[]).filter(h=>h.village==='home');
-  const allUnits = [
-    ...(p.troops||[]).filter(t=>t.village==='home'&&!PET_NAMES.has(t.name)&&!SIEGE_NAMES.has(t.name)&&!SUPER_PREFIXES.some(x=>t.name.startsWith(x))),
-    ...(p.spells||[]).filter(s=>s.village==='home'),
-  ];
-  const maxedU  = allUnits.filter(u=>u.level>=u.maxLevel).length;
-  const resPct  = allUnits.length>0 ? maxedU/allUnits.length : 0;
+  const homeH   = (p.heroes||[]).filter(h=>h.village==='home');
+  const allU    = [...(p.troops||[]).filter(t=>t.village==='home'&&!PET_NAMES.has(t.name)&&!SIEGE_NAMES.has(t.name)&&!SUPER_PFX.some(x=>t.name.startsWith(x))), ...(p.spells||[]).filter(s=>s.village==='home')];
+  const maxedU  = allU.filter(u=>u.level>=u.maxLevel).length;
+  const resPct  = allU.length>0 ? maxedU/allU.length : 0;
+  const hTot    = homeH.reduce((s,h)=>s+h.level,0);
+  const hMax    = homeH.reduce((s,h)=>s+h.maxLevel,0);
+  const thScore = Math.round((p.townHallLevel/18)*25);
+  const hScore  = hMax>0 ? Math.round((hTot/hMax)*40) : 0;
+  const rScore  = Math.round(resPct*15);
+  const wScore  = Math.min(Math.round((p.warStars||0)/2000*10),10);
+  const ls      = p.legendStatistics;
+  const lScore  = ls?.currentSeason?10:ls?.previousSeason?5:ls?.bestSeason?2:0;
+  const total   = thScore+hScore+rScore+wScore+lScore;
+  const col     = total>=90?'var(--gold)':total>=75?'var(--green)':total>=55?'var(--blue)':'var(--muted2)';
+  const grade   = total>=90?'🔥 Elite Account':total>=75?'⭐ Strong Account':total>=55?'📈 Mid Account':total>=35?'🌱 Developing':'🔰 Starter';
 
-  // TH score /25 — use actual TH
-  const thScore  = Math.round((p.townHallLevel/18)*25);
-
-  // Hero score /40 — use actual maxLevel from API
-  const hTotal   = heroes.reduce((s,h)=>s+h.level,0);
-  const hMax     = heroes.reduce((s,h)=>s+h.maxLevel,0);
-  const heroScore= hMax>0 ? Math.round((hTotal/hMax)*40) : 0;
-
-  // Research /15
-  const resScore = Math.round(resPct*15);
-
-  // War stars /10
-  const warScore = Math.min(Math.round((p.warStars||0)/2000*10),10);
-
-  // Legend /10
-  const ls       = p.legendStatistics;
-  const legScore = ls?.currentSeason ? 10 : ls?.previousSeason ? 5 : ls?.bestSeason ? 2 : 0;
-
-  const total = thScore+heroScore+resScore+warScore+legScore;
-  const grade = total>=90?'🔥 Elite Account':total>=75?'⭐ Strong Account':total>=55?'📈 Mid Account':total>=35?'🌱 Developing':'🔰 Starter';
-  const color = total>=90?'var(--gold)':total>=75?'var(--green)':total>=55?'var(--blue)':'var(--muted2)';
-
-  // Animate arc  (circumference = 2π×46 ≈ 289)
-  const offset = 289 - (289 * total / 100);
-  setTimeout(() => {
-    qs('#scoreArc').style.stroke = color;
-    qs('#scoreArc').style.strokeDashoffset = offset;
-  }, 100);
+  setTimeout(()=>{
+    qs('#scoreArc').style.stroke = col;
+    qs('#scoreArc').style.strokeDashoffset = 264 - (264*total/100);
+  },100);
   qs('#scoreNum').textContent = total;
-  qs('#scoreNum').style.color = color;
+  qs('#scoreNum').style.color = col;
   qs('#scoreGrade').textContent = grade;
-  qs('#scoreSub').innerHTML = `TH${p.townHallLevel} · Heroes ${hMax>0?Math.round(hTotal/hMax*100):0}% · Research ${Math.round(resPct*100)}%`;
-
-  qs('#scoreFactors').innerHTML = [
-    ['Town Hall',   `${thScore}/25`],
-    ['Heroes',      `${heroScore}/40`],
-    ['Research',    `${resScore}/15`],
-    ['War Stars',   `${warScore}/10`],
-    ['Legend',      `${legScore}/10`],
-  ].map(([k,v])=>`<div class="sf"><span class="sf-k">${k}</span><span class="sf-v">${v}</span></div>`).join('')
-  + `<div class="sf" style="background:rgba(233,69,96,.08);grid-column:1/-1"><span class="sf-k" style="color:var(--accent)">TOTAL SCORE</span><span class="sf-v" style="color:${color};font-size:14px">${total} / 100</span></div>`;
+  qs('#scoreDesc').innerHTML = `TH${p.townHallLevel} · Heroes ${hMax>0?Math.round(hTot/hMax*100):0}% · Research ${Math.round(resPct*100)}%`;
+  qs('#scoreFacts').innerHTML = [
+    ['Town Hall',`${thScore}/25`],['Heroes',`${hScore}/40`],
+    ['Research',`${rScore}/15`],['War Stars',`${wScore}/10`],
+    ['Legend',`${lScore}/10`],['TOTAL',`${total}/100`],
+  ].map(([k,v],i)=>`<div class="sf" ${i===5?`style="background:rgba(233,69,96,.08);grid-column:1/-1"`:''}><span class="sf-k" ${i===5?`style="color:var(--accent)"`:''}>${k}</span><span class="sf-v" ${i===5?`style="color:${col};font-size:13px"`:''}>${v}</span></div>`).join('');
 }
 
 /* ── LEGEND ── */
@@ -678,198 +707,196 @@ function renderLegend(p) {
   const ls = p.legendStatistics;
   if (!ls) { qs('#legendGrid').innerHTML='<div class="empty-msg" style="grid-column:1/-1">No Legend League data</div>'; return; }
   const seasons = [
-    { lbl:'Current Season', d:ls.currentSeason,  active:true  },
-    { lbl:'Previous Season',d:ls.previousSeason, active:false },
-    { lbl:'Best Season',    d:ls.bestSeason,      active:false },
+    {lbl:'Current Season', d:ls.currentSeason,  active:true},
+    {lbl:'Previous Season',d:ls.previousSeason, active:false},
+    {lbl:'Best Season',    d:ls.bestSeason,      active:false},
   ];
   qs('#legendGrid').innerHTML = seasons.map(s=>`
-    <div class="ls ${s.active&&s.d?'ls-active':''}">
+    <div class="ls ${s.active&&s.d?'act':''}">
       <div class="ls-lbl">${s.lbl}</div>
-      ${s.d
-        ? `<div class="ls-trophy">🏆 ${fmt(s.d.trophies)}</div>
-           <div class="ls-rank">${s.d.rank?`Rank #${fmt(s.d.rank)}`:'—'}</div>
-           <div class="ls-season">${s.d.id||''}</div>`
-        : `<div class="ls-none">—</div>`}
+      ${s.d?`<div class="ls-trophy">🏆 ${fmt(s.d.trophies)}</div><div class="ls-rank">${s.d.rank?`Rank #${fmt(s.d.rank)}`:'—'}</div><div class="ls-season">${s.d.id||''}</div>`:'<div class="ls-none">—</div>'}
     </div>`).join('');
-
   if (ls.legendTrophies) {
-    qs('#legendTotal').style.display = 'block';
-    qs('#lttVal').textContent = '🏆 ' + fmt(ls.legendTrophies);
+    const el = qs('#legendTotal');
+    el.style.display = 'block';
+    qs('#ltVal').textContent = '🏆 ' + fmt(ls.legendTrophies);
   }
 }
 
 /* ── BUILDER BASE ── */
 function renderBuilderBase(p) {
-  const bbHeroes = (p.heroes||[]).filter(h=>h.village==='builderBase');
-  const bbTrps   = (p.troops||[]).filter(t=>t.village==='builderBase');
-  const maxedT   = bbTrps.filter(t=>t.level>=t.maxLevel).length;
-  const resEl    = qs('#bbContent');
-  resEl.innerHTML = `
+  const bbH = (p.heroes||[]).filter(h=>h.village==='builderBase');
+  const bbT = (p.troops||[]).filter(t=>t.village==='builderBase');
+  const mx  = bbT.filter(t=>t.level>=t.maxLevel).length;
+  qs('#bbContent').innerHTML = `
     <div class="bb-card">
-      <div class="bb-header">
-        <div class="bb-level">
-          <div class="bb-level-num">${p.builderHallLevel||'—'}</div>
-          <div class="bb-level-lbl">BH LVL</div>
-        </div>
-        <div>
-          <div class="bb-name">Builder Base</div>
-          <div class="bb-sub">${p.clan?.name||'—'}</div>
-        </div>
+      <div class="bb-head">
+        <div class="bb-lv-badge"><div class="bb-lv-n">${p.builderHallLevel||'—'}</div><div class="bb-lv-l">BH LVL</div></div>
+        <div><div class="bb-title">Builder Base</div><div class="bb-sub">Troops: ${mx}/${bbT.length} maxed</div></div>
       </div>
       <div class="bb-stats">
-        <div class="bb-stat">
-          <div class="bb-stat-v" style="color:var(--blue)">${fmt(p.builderBaseTrophies||0)}</div>
-          <div class="bb-stat-l">BH Trophies</div>
-        </div>
-        <div class="bb-stat">
-          <div class="bb-stat-v" style="color:var(--blue)">${fmt(p.bestBuilderBaseTrophies||0)}</div>
-          <div class="bb-stat-l">Best BH</div>
-        </div>
-        ${bbHeroes.map(h=>`
-        <div class="bb-stat">
-          <div class="bb-stat-v" style="color:${h.level>=h.maxLevel?'var(--gold)':'#fff'}">${h.level}/${h.maxLevel}</div>
-          <div class="bb-stat-l">${h.name}</div>
-        </div>`).join('')}
-        <div class="bb-stat">
-          <div class="bb-stat-v">${maxedT}/${bbTrps.length}</div>
-          <div class="bb-stat-l">BB Maxed</div>
-        </div>
+        <div class="bb-stat"><div class="bb-stat-v" style="color:var(--blue)">${fmt(p.builderBaseTrophies||0)}</div><div class="bb-stat-l">BH Trophies</div></div>
+        <div class="bb-stat"><div class="bb-stat-v" style="color:var(--blue)">${fmt(p.bestBuilderBaseTrophies||0)}</div><div class="bb-stat-l">Best BH</div></div>
+        ${bbH.map(h=>`<div class="bb-stat"><div class="bb-stat-v" style="color:${h.level>=h.maxLevel?'var(--gold)':'#fff'}">${h.level}/${h.maxLevel}</div><div class="bb-stat-l">${h.name}</div></div>`).join('')}
       </div>
     </div>`;
 }
 
 /* ── HEROES ── */
-function renderHeroes(p) {
+function renderHeroes(p, wrapperId) {
   const homeH = (p.heroes||[]).filter(h=>h.village==='home');
   const bbH   = (p.heroes||[]).filter(h=>h.village==='builderBase');
-  const total = [...homeH,...bbH].reduce((s,h)=>s+h.level,0);
+  const tot   = [...homeH,...bbH].reduce((s,h)=>s+h.level,0);
   const max   = [...homeH,...bbH].reduce((s,h)=>s+h.maxLevel,0);
-  const maxed = [...homeH,...bbH].filter(h=>h.level>=h.maxLevel).length;
-  qs('#heroSummary').textContent = `${maxed}/${homeH.length+bbH.length} maxed · ${max>0?Math.round(total/max*100):0}% avg`;
+  const mxd   = [...homeH,...bbH].filter(h=>h.level>=h.maxLevel).length;
+  if (wrapperId==='heroesWrap')
+    qs('#heroSummary').textContent = `${mxd}/${homeH.length+bbH.length} maxed · ${max>0?Math.round(tot/max*100):0}% avg`;
 
-  const NAMES = {
-    'Barbarian King':'Barbarian King','Archer Queen':'Archer Queen',
-    'Grand Warden':'Grand Warden','Royal Champion':'Royal Champion',
-    'Minion Prince':'Minion Prince','Dragon Duke':'Dragon Duke',
-    'Battle Machine':'Battle Machine','Battle Copter':'Battle Copter',
-  };
-  const EMOJI = {
-    'Barbarian King':'👑','Archer Queen':'🏹','Grand Warden':'🧙',
-    'Royal Champion':'⚔️','Minion Prince':'💜','Dragon Duke':'🐉',
-    'Battle Machine':'🤖','Battle Copter':'🚁',
-  };
-
-  const makeCards = (heroes) => heroes.map(h=>{
+  const EMOJI = {'Barbarian King':'👑','Archer Queen':'🏹','Grand Warden':'🧙','Royal Champion':'⚔️','Minion Prince':'💜','Dragon Duke':'🐉','Battle Machine':'🤖','Battle Copter':'🚁'};
+  const mkCard = (h) => {
     const pct = Math.round(h.level/h.maxLevel*100);
-    const isMax = h.level>=h.maxLevel;
-    const col = isMax?'#f5a623':pct>=80?'#2ecc71':pct>=50?'#3498db':'#e94560';
-    const id  = 'hring_'+h.name.replace(/\W/g,'_');
-    return `<div class="hc ${isMax?'hc-max':pct>=80?'hc-high':pct<50?'hc-low':''}" >
-      ${isMax?`<div class="hc-maxbadge">MAX</div>`:''}
+    const isM = h.level>=h.maxLevel;
+    const col = isM?'#f5a623':pct>=80?'#2ecc71':pct>=50?'#3498db':'#e94560';
+    const id  = `hr_${wrapperId}_${h.name.replace(/\W/g,'_')}`;
+    return `<div class="hc ${isM?'hmax':pct>=80?'hhigh':pct<50?'hlow':''}">
+      ${isM?'<div class="hmax-badge">MAX</div>':''}
       <div class="hc-name">${EMOJI[h.name]||'🗡'} ${h.name}</div>
       <div class="hc-ring" id="${id}">
-        <canvas width="64" height="64" data-lv="${h.level}" data-mx="${h.maxLevel}" data-col="${col}"></canvas>
-        <div class="hc-ring-inner">
-          <div class="hc-lv">${h.level}</div>
-          <div class="hc-mx">/${h.maxLevel}</div>
-        </div>
+        <canvas width="60" height="60" data-lv="${h.level}" data-mx="${h.maxLevel}" data-col="${col}"></canvas>
+        <div class="hc-inner"><div class="hc-lv">${h.level}</div><div class="hc-mx">/${h.maxLevel}</div></div>
       </div>
       <div class="hc-bar-wrap"><div class="hc-bar" style="width:${pct}%;background:${col}"></div></div>
     </div>`;
-  }).join('');
+  };
 
-  qs('#heroesWrap').innerHTML = '';
+  const wrap = qs('#'+wrapperId);
+  wrap.innerHTML = '';
+  if (homeH.length) wrap.insertAdjacentHTML('beforeend',`<div class="hero-section-lbl">Home Village (${homeH.length})</div><div class="heroes-home">${homeH.map(mkCard).join('')}</div>`);
+  if (bbH.length)   wrap.insertAdjacentHTML('beforeend',`<div class="hero-section-lbl" style="margin-top:10px">Builder Base (${bbH.length})</div><div class="heroes-bb">${bbH.map(mkCard).join('')}</div>`);
 
-  if (homeH.length) {
-    qs('#heroesWrap').insertAdjacentHTML('beforeend',
-      `<div class="hero-section-lbl">Home Village (${homeH.length})</div>
-       <div class="heroes-row heroes-home">${makeCards(homeH)}</div>`);
-  }
-  if (bbH.length) {
-    qs('#heroesWrap').insertAdjacentHTML('beforeend',
-      `<div class="hero-section-lbl" style="margin-top:12px">Builder Base (${bbH.length})</div>
-       <div class="heroes-row heroes-bb">${makeCards(bbH)}</div>`);
-  }
-
-  // Draw rings
-  document.querySelectorAll('[id^="hring_"] canvas').forEach(cv=>{
-    const lv=+cv.dataset.lv, mx=+cv.dataset.mx, col=cv.dataset.col;
-    const ctx=cv.getContext('2d');
-    const pct2=lv/mx, cx=32,cy=32,r=26,lw=5;
-    ctx.clearRect(0,0,64,64);
+  document.querySelectorAll(`#${wrapperId} canvas`).forEach(cv=>{
+    const lv=+cv.dataset.lv,mx=+cv.dataset.mx,col=cv.dataset.col;
+    const ctx=cv.getContext('2d'),p2=lv/mx,cx=30,cy=30,r=24,lw=4;
+    ctx.clearRect(0,0,60,60);
     ctx.beginPath(); ctx.arc(cx,cy,r,-Math.PI/2,Math.PI*2-Math.PI/2);
     ctx.strokeStyle='rgba(255,255,255,.06)'; ctx.lineWidth=lw; ctx.stroke();
-    ctx.beginPath(); ctx.arc(cx,cy,r,-Math.PI/2,Math.PI*2*pct2-Math.PI/2);
+    ctx.beginPath(); ctx.arc(cx,cy,r,-Math.PI/2,Math.PI*2*p2-Math.PI/2);
     ctx.strokeStyle=col; ctx.lineWidth=lw; ctx.lineCap='round'; ctx.stroke();
   });
 }
 
+/* ── RECRUITMENT SCORE ── */
+function renderRecruitScore(p) {
+  const homeH  = (p.heroes||[]).filter(h=>h.village==='home');
+  const hTot   = homeH.reduce((s,h)=>s+h.level,0);
+  const hMax   = homeH.reduce((s,h)=>s+h.maxLevel,0);
+  const allU   = [...(p.troops||[]).filter(t=>t.village==='home'&&!PET_NAMES.has(t.name)&&!SIEGE_NAMES.has(t.name)&&!SUPER_PFX.some(x=>t.name.startsWith(x))),...(p.spells||[]).filter(s=>s.village==='home')];
+  const resPct = allU.length>0 ? allU.filter(u=>u.level>=u.maxLevel).length/allU.length : 0;
+  const donRat = (p.donations||0) / Math.max((p.donationsReceived||0)+1, 1);
+
+  const factors = [
+    { label:'TH Level',      val: Math.round((p.townHallLevel/18)*25), max:25 },
+    { label:'Hero Levels',   val: hMax>0?Math.round((hTot/hMax)*25):0, max:25 },
+    { label:'Research',      val: Math.round(resPct*20), max:20 },
+    { label:'War Stars',     val: Math.min(Math.round((p.warStars||0)/2000*15),15), max:15 },
+    { label:'Donation Ratio',val: Math.min(Math.round(Math.min(donRat,3)/3*10),10), max:10 },
+    { label:'War Active',    val: p.warPreference==='in'?5:0, max:5 },
+  ];
+  const total  = factors.reduce((s,f)=>s+f.val,0);
+  const cls    = total>=75?'hire':total>=50?'watch':'pass';
+  const verdict= total>=75?'✅ HIRE':total>=50?'👀 WATCH':'❌ PASS';
+  const stars  = total>=90?'★★★★★':total>=75?'★★★★☆':total>=55?'★★★☆☆':total>=35?'★★☆☆☆':'★☆☆☆☆';
+  const barCol = total>=75?'var(--green)':total>=50?'var(--gold)':'var(--accent)';
+
+  qs('#recruitScore').textContent = total;
+  qs('#recruitScore').className = `recruit-score ${cls}`;
+  qs('#recruitStars').textContent = stars;
+  qs('#recruitStars').style.color = barCol;
+  qs('#recruitVerdict').textContent = verdict;
+  qs('#recruitVerdict').className = `recruit-verdict rv-${cls}`;
+  qs('#recruitBars').innerHTML = factors.map(f=>{
+    const pct = Math.round(f.val/f.max*100);
+    return `<div class="rb">
+      <span class="rb-label">${f.label}</span>
+      <div class="rb-track"><div class="rb-fill" style="width:${pct}%;background:${barCol}"></div></div>
+      <span class="rb-val">${f.val}/${f.max}</span>
+    </div>`;
+  }).join('');
+}
+
+/* ── ACTIVITY ── */
+function renderActivity(p) {
+  qs('#actGrid').innerHTML = [
+    {v:fmt(p.attackWins||0),  l:'Attack Wins'},
+    {v:fmt(p.defenseWins||0), l:'Defense Wins'},
+    {v:fmt(p.donations||0),   l:'Donations'},
+    {v:fmt(p.donationsReceived||0), l:'Received'},
+    {v:fmtK(p.clanCapitalContributions||0), l:'Capital'},
+    {v:p.warPreference==='in'?'✅ In':'⭕ Out', l:'War Pref'},
+  ].map(i=>`<div class="act-item"><div class="act-val">${i.v}</div><div class="act-lbl">${i.l}</div></div>`).join('');
+
+  qs('#clanCard').innerHTML = p.clan ? `
+    <div style="display:flex;align-items:center;gap:10px">
+      <img src="${p.clan.badgeUrls?.small||''}" width="38" height="38" style="border-radius:7px;border:1px solid var(--border)"/>
+      <div>
+        <div style="font-size:13px;font-weight:700;color:#fff">${p.clan.name}</div>
+        <div style="font-size:10px;color:var(--muted)">Lv${p.clan.clanLevel} · ${cap(p.role||'Member')}</div>
+        <div style="font-size:10px;color:var(--blue);font-family:monospace">${p.clan.tag}</div>
+      </div>
+    </div>` : '<div class="empty-msg">Not in a clan</div>';
+}
+
 /* ── EQUIPMENT ── */
 function renderEquipment(p) {
-  const eq     = p.heroEquipment||[];
-  const epic   = eq.filter(e=>e.maxLevel>=20);
-  const rare   = eq.filter(e=>e.maxLevel<20);
-  const emaxed = epic.filter(e=>e.level>=e.maxLevel).length;
-  const rmaxed = rare.filter(e=>e.level>=e.maxLevel).length;
-
-  qs('#equipSummary').textContent = `${emaxed+rmaxed}/${eq.length} maxed`;
-  qs('#equipSummaryCards').innerHTML = `
-    <div class="eq-summary-card" style="border-color:rgba(155,89,182,.2);background:rgba(155,89,182,.05)">
-      <div class="eq-summary-num" style="color:var(--purple)">${emaxed}/${epic.length}</div>
-      <div class="eq-summary-lbl">Epic Maxed</div>
-    </div>
-    <div class="eq-summary-card" style="border-color:rgba(52,152,219,.2);background:rgba(52,152,219,.05)">
-      <div class="eq-summary-num" style="color:var(--blue)">${rmaxed}/${rare.length}</div>
-      <div class="eq-summary-lbl">Rare Maxed</div>
-    </div>`;
-
-  const makeEqItem = (e) => {
-    const isEpic = e.maxLevel>=20;
-    const pct    = Math.round(e.level/e.maxLevel*100);
-    const isMax  = e.level>=e.maxLevel;
-    const lvCls  = isMax?'maxed':pct>=80?'high':'mid';
-    return `<div class="eq-item ${isEpic?'epic':'rare'}">
-      <div class="eq-rarity ${isEpic?'epic':'rare'}">${isEpic?'EPIC':'RARE'}</div>
+  const eq   = p.heroEquipment||[];
+  const epic = eq.filter(e=>e.maxLevel>=20);
+  const rare = eq.filter(e=>e.maxLevel<20);
+  const em   = epic.filter(e=>e.level>=e.maxLevel).length;
+  const rm   = rare.filter(e=>e.level>=e.maxLevel).length;
+  qs('#equipSummary').textContent = `${em+rm}/${eq.length} maxed`;
+  qs('#equipSumCards').innerHTML = `
+    <div class="eq-sum" style="border-color:rgba(155,89,182,.2)"><div class="eq-sum-n" style="color:var(--purple)">${em}/${epic.length}</div><div class="eq-sum-l">Epic Maxed</div></div>
+    <div class="eq-sum" style="border-color:rgba(52,152,219,.2)"><div class="eq-sum-n" style="color:var(--blue)">${rm}/${rare.length}</div><div class="eq-sum-l">Rare Maxed</div></div>`;
+  const sorted = [...epic.sort((a,b)=>b.level-a.level),...rare.sort((a,b)=>b.level-a.level)];
+  qs('#equipList').innerHTML = sorted.map(e=>{
+    const isE = e.maxLevel>=20;
+    const pct = Math.round(e.level/e.maxLevel*100);
+    const isM = e.level>=e.maxLevel;
+    const lCls= isM?'maxed':pct>=80?'high':'mid';
+    return `<div class="eq-item ${isE?'epic':'rare'}">
+      <div class="eq-rar ${isE?'epic':'rare'}">${isE?'EPIC':'RARE'}</div>
       <div class="eq-name">${e.name}</div>
-      <div class="eq-lv ${lvCls}">${e.level}/${e.maxLevel}</div>
+      <div class="eq-lv ${lCls}">${e.level}/${e.maxLevel}</div>
     </div>`;
-  };
-
-  // Sort: epic first (sorted by level desc), then rare
-  const sorted = [
-    ...epic.sort((a,b)=>b.level-a.level),
-    ...rare.sort((a,b)=>b.level-a.level),
-  ];
-  qs('#equipList').innerHTML = sorted.map(makeEqItem).join('');
+  }).join('');
 }
 
 /* ── RESEARCH ── */
 function renderResearch(p) {
   const homeTrps = (p.troops||[]).filter(t=>t.village==='home');
   const cats = [
-    { name:'Elixir Troops',  cls:'bg-gold',   units: homeTrps.filter(t=>classifyTroop(t.name)==='elixir') },
-    { name:'Dark Troops',    cls:'bg-purple',  units: homeTrps.filter(t=>classifyTroop(t.name)==='dark') },
-    { name:'Siege Machines', cls:'bg-orange',  units: homeTrps.filter(t=>classifyTroop(t.name)==='siege') },
-    { name:'Spells',         cls:'bg-blue',    units: (p.spells||[]).filter(s=>s.village==='home') },
-    { name:'Super Troops',   cls:'bg-accent',  units: homeTrps.filter(t=>classifyTroop(t.name)==='super') },
-    { name:'Pets',           cls:'bg-pink',    units: homeTrps.filter(t=>classifyTroop(t.name)==='pets') },
-    { name:'Builder Base',   cls:'bg-cyan',    units: (p.troops||[]).filter(t=>t.village==='builderBase') },
-  ].filter(c=>c.units.length>0);
+    {name:'Elixir Troops', cls:'bg-gold',   u:homeTrps.filter(t=>classifyTroop(t.name)==='elixir')},
+    {name:'Dark Troops',   cls:'bg-purple',  u:homeTrps.filter(t=>classifyTroop(t.name)==='dark')},
+    {name:'Spells',        cls:'bg-blue',    u:(p.spells||[]).filter(s=>s.village==='home')},
+    {name:'Siege Machines',cls:'bg-orange',  u:homeTrps.filter(t=>classifyTroop(t.name)==='siege')},
+    {name:'Super Troops',  cls:'bg-accent',  u:homeTrps.filter(t=>classifyTroop(t.name)==='super')},
+    {name:'Pets',          cls:'bg-pink',    u:homeTrps.filter(t=>classifyTroop(t.name)==='pets')},
+    {name:'Builder Base',  cls:'bg-cyan',    u:(p.troops||[]).filter(t=>t.village==='builderBase')},
+  ].filter(c=>c.u.length>0);
 
-  const allCoreUnits = cats.filter(c=>!['Super Troops','Builder Base'].includes(c.name)).flatMap(c=>c.units);
-  const totalMaxed   = allCoreUnits.filter(u=>u.level>=u.maxLevel).length;
-  const totalUnits   = allCoreUnits.length;
-  qs('#researchOverall').textContent = `${totalMaxed}/${totalUnits} core maxed`;
+  const core = cats.filter(c=>!['Super Troops','Builder Base'].includes(c.name)).flatMap(c=>c.u);
+  const coreM = core.filter(u=>u.level>=u.maxLevel).length;
+  qs('#researchOverall').textContent = `${coreM}/${core.length} core`;
 
   qs('#resBars').innerHTML = cats.map(c=>{
-    const mx  = c.units.filter(u=>u.level>=u.maxLevel).length;
-    const pct = c.units.length>0 ? Math.round(mx/c.units.length*100) : 0;
-    const pctColor = pct>=90?'var(--gold)':pct>=70?'var(--green)':pct>=40?'var(--blue)':'var(--accent)';
+    const mx  = c.u.filter(u=>u.level>=u.maxLevel).length;
+    const pct = c.u.length>0?Math.round(mx/c.u.length*100):0;
+    const col = pct>=90?'var(--gold)':pct>=70?'var(--green)':pct>=40?'var(--blue)':'var(--accent)';
     return `<div class="res-cat">
-      <div class="res-header">
+      <div class="res-hdr">
         <span class="res-name">${c.name}</span>
-        <span class="res-count">${mx}/${c.units.length}</span>
-        <span class="res-pct" style="color:${pctColor};margin-left:8px">${pct}%</span>
+        <span class="res-count">${mx}/${c.u.length}</span>
+        <span class="res-pct" style="color:${col}">${pct}%</span>
       </div>
       <div class="bar"><div class="bar-inner ${c.cls}" style="width:${pct}%"></div></div>
     </div>`;
@@ -878,61 +905,47 @@ function renderResearch(p) {
 
 /* ── TROOPS ── */
 function renderTroops(p) {
-  const homeTrps = (p.troops||[]).filter(t=>t.village==='home');
+  const ht = (p.troops||[]).filter(t=>t.village==='home');
   troopGroups = {
-    'Elixir':    { emoji:'⚗️',  units: homeTrps.filter(t=>classifyTroop(t.name)==='elixir') },
-    'Dark':      { emoji:'🌑',  units: homeTrps.filter(t=>classifyTroop(t.name)==='dark') },
-    'Spells':    { emoji:'✨',  units: (p.spells||[]).filter(s=>s.village==='home') },
-    'Siege':     { emoji:'🏰',  units: homeTrps.filter(t=>classifyTroop(t.name)==='siege') },
-    'Super':     { emoji:'💥',  units: homeTrps.filter(t=>classifyTroop(t.name)==='super') },
-    'Pets':      { emoji:'🐾',  units: homeTrps.filter(t=>classifyTroop(t.name)==='pets') },
-    'Builder BB':{ emoji:'🔧',  units: (p.troops||[]).filter(t=>t.village==='builderBase') },
+    'Elixir':  {e:'⚗️',u:ht.filter(t=>classifyTroop(t.name)==='elixir')},
+    'Dark':    {e:'🌑',u:ht.filter(t=>classifyTroop(t.name)==='dark')},
+    'Spells':  {e:'✨',u:(p.spells||[]).filter(s=>s.village==='home')},
+    'Siege':   {e:'🏰',u:ht.filter(t=>classifyTroop(t.name)==='siege')},
+    'Super':   {e:'💥',u:ht.filter(t=>classifyTroop(t.name)==='super')},
+    'Pets':    {e:'🐾',u:ht.filter(t=>classifyTroop(t.name)==='pets')},
+    'Builder': {e:'🔧',u:(p.troops||[]).filter(t=>t.village==='builderBase')},
   };
-
+  const firstTab = Object.keys(troopGroups).find(k=>troopGroups[k].u.length>0)||'';
+  activeTab = firstTab;
   qs('#troopTabs').innerHTML = Object.entries(troopGroups)
-    .filter(([,v])=>v.units.length>0)
-    .map(([k,v])=>`
-      <button class="ttab ${activeTroopTab===k||(!activeTroopTab)?activeTroopTab===k?'act':Object.keys(troopGroups).find(x=>troopGroups[x].units.length>0)===k?'act':'':''}"
-        onclick="switchTab('${k}')">${v.emoji} ${k} <span class="ttab-cnt">${v.units.length}</span></button>`)
+    .filter(([,v])=>v.u.length>0)
+    .map(([k,v])=>`<button class="ttab ${k===firstTab?'act':''}" onclick="switchTab('${k}')">${v.e} ${k} <span class="ttab-cnt">${v.u.length}</span></button>`)
     .join('');
-
-  // Auto-select first tab
-  if (!activeTroopTab) {
-    activeTroopTab = Object.keys(troopGroups).find(k=>troopGroups[k].units.length>0)||'';
-    // Re-render tabs with correct active
-    qs('#troopTabs').innerHTML = Object.entries(troopGroups)
-      .filter(([,v])=>v.units.length>0)
-      .map(([k,v])=>`
-        <button class="ttab ${k===activeTroopTab?'act':''}" onclick="switchTab('${k}')">${v.emoji} ${k} <span class="ttab-cnt">${v.units.length}</span></button>`)
-      .join('');
-  }
   renderTroopGrid();
 }
 
 function switchTab(tab) {
-  activeTroopTab = tab;
-  document.querySelectorAll('.ttab').forEach(b=>b.classList.toggle('act', b.textContent.includes(tab.split(' ')[0]) && b.textContent.includes(tab.split(' ').pop())));
+  activeTab = tab;
+  document.querySelectorAll('.ttab').forEach(b=>b.classList.toggle('act', b.textContent.includes(tab)));
   renderTroopGrid();
 }
 
 function renderTroopGrid() {
-  const units = troopGroups[activeTroopTab]?.units||[];
+  const units = troopGroups[activeTab]?.u||[];
   qs('#troopGrid').innerHTML = units.map(u=>{
-    const pct   = Math.round(u.level/u.maxLevel*100);
-    const isMax = u.level>=u.maxLevel;
-    const cls   = isMax?'maxed':pct>=80?'high':pct>=50?'mid':'low';
-    return `<div class="ti ${isMax?'maxed':''}">
-      <span class="ti-name">${u.name}</span>
-      <span class="ti-lv ${cls}">${u.level}<span style="color:var(--muted);font-size:10px">/${u.maxLevel}</span></span>
+    const pct  = Math.round(u.level/u.maxLevel*100);
+    const isM  = u.level>=u.maxLevel;
+    const cls  = isM?'maxed':pct>=80?'high':pct>=50?'mid':'low';
+    return `<div class="ti2 ${isM?'maxed':''}">
+      <span class="ti2-name">${u.name}</span>
+      <span class="ti2-lv ${cls}">${u.level}<span style="color:var(--muted);font-size:9px">/${u.maxLevel}</span></span>
     </div>`;
   }).join('');
 }
 
 /* ── ACHIEVEMENTS ── */
 function renderAchievements(p) {
-  const WANT = ['Gold Grab','Elixir Escapade','Heroic Heist','War Hero','Conqueror',
-    'Unbreakable','Sweet Victory!','Games Champion','Well Seasoned',
-    'Friend in Need','Clan War League Legend','Get those Goblins!'];
+  const WANT = ['Gold Grab','Elixir Escapade','Heroic Heist','War Hero','Conqueror','Unbreakable','Sweet Victory!','Games Champion','Well Seasoned','Friend in Need','Clan War League Legend'];
   const achs = (p.achievements||[]).filter(a=>WANT.includes(a.name));
   qs('#achGrid').innerHTML = achs.map(a=>{
     const pct   = Math.min(Math.round(a.value/a.target*100),100);
@@ -946,79 +959,190 @@ function renderAchievements(p) {
   }).join('');
 }
 
-/* ── ACTIVITY ── */
-function renderActivity(p) {
-  const winRate = p.attackWins&&p.defenseWins ? Math.round(p.attackWins/(p.attackWins+p.defenseWins)*100) : '—';
-  qs('#actGrid').innerHTML = [
-    { v: fmt(p.attackWins||0),    l:'Attack Wins' },
-    { v: fmt(p.defenseWins||0),   l:'Defense Wins' },
-    { v: fmt(p.donations||0),     l:'Donations' },
-    { v: fmt(p.donationsReceived||0), l:'Received' },
-    { v: fmtK(p.clanCapitalContributions||0), l:'Capital' },
-    { v: p.warPreference==='in'?'✅ In':'⭕ Out', l:'War Pref' },
-  ].map(i=>`<div class="act-item">
-    <div class="act-val">${i.v}</div>
-    <div class="act-lbl">${i.l}</div>
-  </div>`).join('');
+/* ═══════════════════════════════════════
+   COMPARE RENDER
+═══════════════════════════════════════ */
+function renderCompare(p1, p2) {
+  const s1 = calcScore(p1), s2 = calcScore(p2);
+  const winnerHtml = s1 > s2
+    ? `<div class="winner-badge wb-p1">🏆 ${p1.name} Wins (+${s1-s2} pts)</div>`
+    : s2 > s1
+    ? `<div class="winner-badge wb-p2">🏆 ${p2.name} Wins (+${s2-s1} pts)</div>`
+    : `<div class="winner-badge wb-tie">🤝 Tied</div>`;
 
-  qs('#clanCard').innerHTML = p.clan ? `
-    <div style="display:flex;align-items:center;gap:12px">
-      <img src="${p.clan.badgeUrls?.small||''}" width="40" height="40" style="border-radius:8px;border:1px solid var(--border)"/>
-      <div>
-        <div style="font-size:14px;font-weight:700;color:#fff">${p.clan.name}</div>
-        <div style="font-size:11px;color:var(--muted)">Level ${p.clan.clanLevel} · ${capitalize(p.role||'Member')}</div>
-        <div style="font-size:11px;color:var(--blue);font-family:monospace">${p.clan.tag}</div>
-      </div>
-    </div>` : `<div class="empty-msg">Not in a clan</div>`;
+  qs('#compareHeader').innerHTML = `
+    <div class="ch-player">
+      <div class="ch-name">${p1.name}</div>
+      <div class="ch-tag">${p1.tag}</div>
+      <div class="ch-th">TH${p1.townHallLevel} · Score ${s1}</div>
+    </div>
+    <div class="ch-vs">VS</div>
+    <div class="ch-winner">
+      ${winnerHtml}
+      <div style="font-size:11px;color:var(--muted);margin-top:6px">${p2.name} · TH${p2.townHallLevel} · Score ${s2}</div>
+    </div>`;
+
+  // Hero comparison cards
+  const mkHeroCards = (p, side) => {
+    const heroes = (p.heroes||[]).filter(h=>h.village==='home');
+    const other  = side==='p1' ? P2_CACHE : p1;
+    const otherH = (other?.heroes||[]).filter(h=>h.village==='home');
+    return heroes.map(h=>{
+      const opp = otherH.find(o=>o.name===h.name);
+      const cls = !opp ? 'same' : h.level>opp.level?'win':h.level<opp.level?'lose':'same';
+      return `<div class="cmp-hero">
+        <span class="cmp-hero-name">${h.name.replace('Barbarian King','BK').replace('Archer Queen','AQ').replace('Grand Warden','GW').replace('Royal Champion','RC').replace('Minion Prince','MP').replace('Dragon Duke','DD')}</span>
+        <span class="cmp-hero-lv ${cls}">${h.level}/${h.maxLevel}</span>
+      </div>`;
+    }).join('');
+  };
+
+  // Store p2 for comparison
+  window.P2_CACHE = p2;
+
+  qs('#cmpHeroes1').innerHTML = `<div class="cmp-hero-grid">${mkHeroCards(p1,'p1')}</div>`;
+  qs('#cmpHeroes2').innerHTML = `<div class="cmp-hero-grid">${mkHeroCards(p2,'p2')}</div>`;
+
+  // Diff table
+  const homeH1 = (p1.heroes||[]).filter(h=>h.village==='home');
+  const homeH2 = (p2.heroes||[]).filter(h=>h.village==='home');
+  const hTot1  = homeH1.reduce((s,h)=>s+h.level,0);
+  const hTot2  = homeH2.reduce((s,h)=>s+h.level,0);
+  const hMax1  = homeH1.reduce((s,h)=>s+h.maxLevel,0);
+  const hMax2  = homeH2.reduce((s,h)=>s+h.maxLevel,0);
+  const allU1  = [...(p1.troops||[]).filter(t=>t.village==='home'&&!PET_NAMES.has(t.name)&&!SIEGE_NAMES.has(t.name)&&!SUPER_PFX.some(x=>t.name.startsWith(x))),...(p1.spells||[]).filter(s=>s.village==='home')];
+  const allU2  = [...(p2.troops||[]).filter(t=>t.village==='home'&&!PET_NAMES.has(t.name)&&!SIEGE_NAMES.has(t.name)&&!SUPER_PFX.some(x=>t.name.startsWith(x))),...(p2.spells||[]).filter(s=>s.village==='home')];
+  const res1   = allU1.length>0?Math.round(allU1.filter(u=>u.level>=u.maxLevel).length/allU1.length*100):0;
+  const res2   = allU2.length>0?Math.round(allU2.filter(u=>u.level>=u.maxLevel).length/allU2.length*100):0;
+
+  const rows = [
+    ['Account Score',    s1,    s2,    true],
+    ['Town Hall',        p1.townHallLevel, p2.townHallLevel, true],
+    ['Trophies',         p1.trophies,      p2.trophies,      true],
+    ['Best Trophies',    p1.bestTrophies,  p2.bestTrophies,  true],
+    ['War Stars',        p1.warStars,      p2.warStars,      true],
+    ['Exp Level',        p1.expLevel,      p2.expLevel,      true],
+    ['Hero Total',       hTot1,            hTot2,            true],
+    ['Hero % of Max',    hMax1>0?Math.round(hTot1/hMax1*100):0, hMax2>0?Math.round(hTot2/hMax2*100):0, true],
+    ['Research %',       res1,             res2,             true],
+    ['Equipment Count',  (p1.heroEquipment||[]).length, (p2.heroEquipment||[]).length, true],
+    ['BH Level',         p1.builderHallLevel||0, p2.builderHallLevel||0, true],
+    ['BH Trophies',      p1.builderBaseTrophies||0, p2.builderBaseTrophies||0, true],
+    ['Donations',        p1.donations||0,  p2.donations||0,  true],
+    ['Capital Contrib',  p1.clanCapitalContributions||0, p2.clanCapitalContributions||0, true],
+  ];
+
+  const mx = (r) => Math.max(Number(r[1]),Number(r[2]))||1;
+
+  qs('#diffTable').innerHTML = `
+    <thead><tr>
+      <th style="width:30%">Metric</th>
+      <th style="width:30%;text-align:center;color:var(--green)">${p1.name}</th>
+      <th style="width:10%"></th>
+      <th style="width:30%;text-align:center;color:#5dade2">${p2.name}</th>
+    </tr></thead>
+    <tbody>
+    ${rows.map(([label,v1,v2])=>{
+      const c1 = v1>v2?'diff-win':v1<v2?'diff-lose':'diff-same';
+      const c2 = v2>v1?'diff-win':v2<v1?'diff-lose':'diff-same';
+      const m  = Math.max(Number(v1),Number(v2))||1;
+      const b1 = Math.round(Number(v1)/m*100);
+      const b2 = Math.round(Number(v2)/m*100);
+      return `<tr>
+        <td class="diff-metric">${label}</td>
+        <td class="diff-p1 ${c1}">${typeof v1==='number'?fmt(v1):v1}</td>
+        <td class="diff-bar-cell">
+          <div class="diff-bars">
+            <div class="diff-bar-left"><div class="diff-bar-left-fill" style="width:${b1}%"></div></div>
+            <div class="diff-center">vs</div>
+            <div class="diff-bar-right"><div class="diff-bar-right-fill" style="width:${b2}%"></div></div>
+          </div>
+        </td>
+        <td class="diff-p2 ${c2}">${typeof v2==='number'?fmt(v2):v2}</td>
+      </tr>`;
+    }).join('')}
+    </tbody>`;
 }
 
-/* ════════════════════════════════
+function calcScore(p) {
+  const homeH = (p.heroes||[]).filter(h=>h.village==='home');
+  const allU  = [...(p.troops||[]).filter(t=>t.village==='home'&&!PET_NAMES.has(t.name)&&!SIEGE_NAMES.has(t.name)&&!SUPER_PFX.some(x=>t.name.startsWith(x))),...(p.spells||[]).filter(s=>s.village==='home')];
+  const hTot  = homeH.reduce((s,h)=>s+h.level,0);
+  const hMax  = homeH.reduce((s,h)=>s+h.maxLevel,0);
+  const rPct  = allU.length>0?allU.filter(u=>u.level>=u.maxLevel).length/allU.length:0;
+  const ls    = p.legendStatistics;
+  return Math.round((p.townHallLevel/18)*25) +
+         (hMax>0?Math.round((hTot/hMax)*40):0) +
+         Math.round(rPct*15) +
+         Math.min(Math.round((p.warStars||0)/2000*10),10) +
+         (ls?.currentSeason?10:ls?.previousSeason?5:ls?.bestSeason?2:0);
+}
+
+/* ═══════════════════════════════════════
+   PERCENTILES
+═══════════════════════════════════════ */
+function trophyPct(t) {
+  if (t>=5500) return {label:'Top 0.1%',tier:'elite'};
+  if (t>=5000) return {label:'Top 1%',tier:'elite'};
+  if (t>=4500) return {label:'Top 3%',tier:'high'};
+  if (t>=4000) return {label:'Top 10%',tier:'high'};
+  if (t>=3500) return {label:'Top 20%',tier:'mid'};
+  if (t>=3000) return {label:'Top 35%',tier:'mid'};
+  return {label:'Top 50%+',tier:'low'};
+}
+function warStarPct(w) {
+  if (w>=4000) return {label:'Top 1%',tier:'elite'};
+  if (w>=3000) return {label:'Top 5%',tier:'elite'};
+  if (w>=2000) return {label:'Top 15%',tier:'high'};
+  if (w>=1000) return {label:'Top 30%',tier:'mid'};
+  return {label:'Top 50%+',tier:'low'};
+}
+function pctBadge(obj) {
+  const colors = {elite:'pct-elite',high:'pct-high',mid:'pct-mid',low:'pct-low'};
+  return `<span class="pct-badge ${colors[obj.tier]}">${obj.label}</span>`;
+}
+
+/* ═══════════════════════════════════════
    RAW JSON
-════════════════════════════════ */
+═══════════════════════════════════════ */
 function toggleRaw() {
-  const w   = qs('#rawWrap');
-  const ico = qs('#rawToggle');
-  const vis = w.style.display!=='none';
-  w.style.display  = vis?'none':'block';
-  ico.textContent  = vis?'▼ Show':'▲ Hide';
+  const w=qs('#rawWrap'),ico=qs('#rawToggle'),vis=w.style.display!=='none';
+  w.style.display=vis?'none':'block';
+  ico.textContent=vis?'▼ Show':'▲ Hide';
   event.stopPropagation();
 }
 
-/* ════════════════════════════════
+/* ═══════════════════════════════════════
    UTILS
-════════════════════════════════ */
-function qs(sel){ return document.querySelector(sel); }
-function fmt(n){ return n!=null ? Number(n).toLocaleString() : '—'; }
-function fmtK(n){ if(n>=1e9) return (n/1e9).toFixed(1)+'B'; if(n>=1e6) return (n/1e6).toFixed(1)+'M'; if(n>=1e3) return (n/1e3).toFixed(1)+'K'; return String(n); }
-function capitalize(s){ return s ? s.charAt(0).toUpperCase()+s.slice(1) : ''; }
+═══════════════════════════════════════ */
+const qs  = sel => document.querySelector(sel);
+const fmt = n   => n!=null?Number(n).toLocaleString():'—';
+const cap = s   => s?s.charAt(0).toUpperCase()+s.slice(1):'';
+function fmtK(n){if(n>=1e9)return(n/1e9).toFixed(1)+'B';if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'K';return String(n)}
 
-function setState(s, msg='') {
-  ['stEmpty','stLoad','stErr','dash'].forEach(id=>{
-    const el = qs('#'+id);
-    el.classList.remove('show');
-    if(el.id==='dash') el.style.display='none';
-  });
-  if (s==='dash') { qs('#dash').style.display='block'; return; }
-  const el = qs('#st'+capitalize(s));
-  if (el) el.classList.add('show');
-  if (s==='load' && msg) qs('#loadMsg').textContent = msg;
-  if (s==='err')  qs('#errBox').textContent = msg;
-
-  const btn = qs('#scanBtn');
-  btn.disabled = s==='load';
-  qs('#scanIcon').textContent = s==='load'?'⏳':'⚡';
+function setState(s,msg=''){
+  ['stEmpty','stLoad','stErr'].forEach(id=>{const e=qs('#'+id);e.classList.remove('show')});
+  qs('#dash').style.display='none';
+  if(s==='dash'){qs('#dash').style.display='block';return}
+  const id={empty:'stEmpty',load:'stLoad',err:'stErr'}[s];
+  if(id)qs('#'+id).classList.add('show');
+  if(s==='load')qs('#loadMsg').textContent=msg;
+  if(s==='err')qs('#errBox').textContent=msg;
+  const btn=qs('#scanBtn');
+  btn.disabled=s==='load';
+  qs('#scanIcon').textContent=s==='load'?'⏳':'⚡';
 }
 
-function pip(on, txt) {
-  qs('#pip').className  = 'status-pip'+(on?' on':'');
-  qs('#pipTxt').textContent = txt;
+function pip(on,txt){
+  qs('#pip').className='pip'+(on?' on':'');
+  qs('#pipTxt').textContent=txt;
 }
 
-function errMsg(status, msg) {
-  if (status===403) return '403 Forbidden — IP not whitelisted. Go to developer.clashofclans.com → My Keys → edit → add your IP.';
-  if (status===404) return '404 Not Found — Player tag doesn\'t exist. Check format: #ABC123 (uppercase)';
-  if (status===429) return '429 Rate Limited — wait a few minutes then try again.';
-  return `Error ${status}: ${msg}`;
+function errMsg(status,msg){
+  if(status===403)return'403 Forbidden — IP not whitelisted. Go to developer.clashofclans.com → My Keys → edit → update IP.';
+  if(status===404)return'404 Not Found — Player tag doesn\'t exist. Check format: #ABC123 (uppercase)';
+  if(status===429)return'429 Rate Limited — wait a minute then retry.';
+  return`Error ${status}: ${msg}`;
 }
 </script>
 </body>

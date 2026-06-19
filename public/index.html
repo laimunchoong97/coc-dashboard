@@ -1315,31 +1315,15 @@ function renderProgressionIntel(p) {
     '</div>';
 }
 
-/* ── EQUIPMENT LOADOUT GRADE ── */
+/* ── EQUIPMENT LOADOUT (no meta grading — meta changes every patch) ── */
 function renderEquipmentGrade(p) {
-  // Meta loadout database (known strong combos)
-  var META = {
-    'Barbarian King': ['Spiky Ball','Giant Gauntlet','Barbarian Puppet','Earthquake Boots','Snake Bracelet','Rage Vial'],
-    'Archer Queen':   ['Frozen Arrow','Archer Puppet','Invisibility Vial','Giant Arrow','Seeking Shield','Monolith Arrow','Action Figure'],
-    'Grand Warden':   ['Eternal Tome','Life Gem','Rage Gem','Heroic Torch','Magic Mirror','Healing Tome','Dark Crown','Lavaloon Puppet'],
-    'Royal Champion': ['Hog Rider Puppet','Rocket Backpack','Seeking Shield','Haste Vial','Frost Flake','Electro Boots'],
-    'Minion Prince':  ['Dark Crown','Henchmen Puppet','Electro Boots','Metal Pants','Rocket Backpack','Meteor Staff','Magic Mirror'],
-    'Dragon Duke':    ['Fireball','Electro Fangs','Fire Heart','Stun Blaster','Flame Blower'],
-  };
-
   var homeH=(p.heroes||[]).filter(function(h){return h.village==='home';});
-  var grades=[];
-  var totalScore=0,gradeCount=0;
+  var totalEquip=0, maxedEquip=0;
 
   var rows=homeH.map(function(h){
     if(!h.equipment||!h.equipment.length) return '';
-    var metaList=META[h.name]||[];
-    var metaMatches=h.equipment.filter(function(e){return metaList.indexOf(e.name)>=0;}).length;
+    h.equipment.forEach(function(e){ totalEquip++; if(e.level>=e.maxLevel) maxedEquip++; });
     var allMaxed=h.equipment.every(function(e){return e.level>=e.maxLevel;});
-    var anyMaxed=h.equipment.some(function(e){return e.level>=e.maxLevel;});
-    var score=Math.round((metaMatches/h.equipment.length)*60 + (allMaxed?40:anyMaxed?20:0));
-    totalScore+=score; gradeCount++;
-    var g=score>=85?{lbl:'Meta',cls:'g-meta'}:score>=65?{lbl:'Good',cls:'g-good'}:score>=40?{lbl:'Mixed',cls:'g-mixed'}:{lbl:'Weak',cls:'g-weak'};
     var img=IMGS.heroes[h.name]||'';
     return '<div class="eq-hero-row">'+
       (img?'<img class="eq-hero-img" src="'+img+'" alt="'+h.name+'"/>':'<span style="font-size:24px">🗡</span>')+
@@ -1349,17 +1333,15 @@ function renderEquipmentGrade(p) {
         var lvCls=e.level>=e.maxLevel?'maxed':pct>=80?'near':'low';
         var img2=IMGS.equipment[e.name]||'';
         return '<div class="eq-slot '+(isE?'epic':'rare')+'">'+
-          (img2?'<img src="'+img2+'" width="20" height="20"/>':'')+'<span class="eq-slot-name">'+e.name.split(' ').slice(0,2).join(' ')+'</span>'+
+          (img2?'<img src="'+img2+'" width="20" height="20"/>':'')+'<span class="eq-slot-name">'+e.name+'</span>'+
           '<span class="eq-slot-lv '+lvCls+'">'+e.level+'/'+e.maxLevel+'</span>'+
         '</div>';
       }).join('')+'</div>'+
-      '<div class="eq-hero-grade '+g.cls+'">'+g.lbl+'</div>'+
     '</div>';
   }).join('');
 
-  var overallScore = gradeCount>0?Math.round(totalScore/gradeCount):0;
-  var overallG=overallScore>=85?'A — Meta Builds':overallScore>=65?'B — Solid Setup':overallScore>=45?'C — Needs Work':'D — Not Optimised';
-  qs('#loadoutGrade').textContent='Overall: '+overallG;
+  var overallLabel = totalEquip>0 ? maxedEquip+'/'+totalEquip+' equipped items maxed' : 'No equipment data';
+  qs('#loadoutGrade').textContent = overallLabel;
   qs('#eqGradeWrap').innerHTML=rows;
 }
 

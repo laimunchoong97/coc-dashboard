@@ -591,3 +591,155 @@ pre.raw { background:rgba(0,0,0,.5); border-radius:7px; padding:14px; font-size:
   .hp-search{ max-width:100% }
   .logo-text{ font-size:18px }
 }
+
+/* ═══════════════════════════════
+   INTELLIGENCE FEATURES
+═══════════════════════════════ */
+
+/* DNA RADAR */
+.dna-wrap { display:flex; align-items:center; gap:20px; flex-wrap:wrap }
+.dna-svg-wrap { flex-shrink:0 }
+.dna-legend { flex:1; min-width:140px; display:flex; flex-direction:column; gap:8px }
+.dna-axis { display:flex; align-items:center; gap:8px }
+.dna-axis-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0 }
+.dna-axis-label { font-size:11px; color:var(--muted2); font-weight:600 }
+.dna-axis-score { margin-left:auto; font-size:12px; font-weight:800; font-family:'Lilita One',sans-serif }
+.dna-profile-tag {
+  margin-top:12px; padding:8px 14px; border-radius:8px;
+  background:rgba(245,197,24,.1); border:1px solid rgba(245,197,24,.25);
+  font-size:12px; font-weight:700; color:var(--gold); text-align:center;
+  font-family:'Lilita One',sans-serif; letter-spacing:.5px;
+}
+
+/* ACCOUNT INTEL CARD */
+.intel-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px }
+.intel-item {
+  background:rgba(0,0,0,.28); border:1px solid var(--border);
+  border-radius:8px; padding:12px 10px; text-align:center;
+}
+.intel-val { font-size:16px; font-weight:800; color:#fff; line-height:1; font-family:'Lilita One',sans-serif }
+.intel-lbl { font-size:9px; color:var(--muted); margin-top:3px; letter-spacing:.5px }
+
+/* TIME TO MAX */
+.ttm-overview {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:12px;
+  margin-bottom:18px;
+}
+.ttm-card {
+  background:rgba(0,0,0,.3); border:1px solid var(--border);
+  border-radius:10px; padding:14px 12px; text-align:center; position:relative; overflow:hidden;
+}
+.ttm-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px }
+.ttm-card.heroes::before  { background:var(--gold)    }
+.ttm-card.troops::before  { background:var(--cyan)    }
+.ttm-card.spells::before  { background:var(--blue2)   }
+.ttm-card.equip::before   { background:var(--purple2) }
+.ttm-card.total::before   { background:var(--accent)  }
+.ttm-days { font-size:26px; font-weight:900; color:#fff; font-family:'Lilita One',sans-serif; line-height:1 }
+.ttm-unit { font-size:11px; color:var(--muted); margin-bottom:3px }
+.ttm-lbl  { font-size:10px; color:var(--muted2); font-weight:600 }
+.ttm-sub  { font-size:9px; color:var(--muted); margin-top:2px }
+.ttm-note { font-size:11px; color:var(--muted); text-align:center; margin-top:6px; padding:8px; background:rgba(0,0,0,.2); border-radius:6px }
+.ttm-breakdown { display:flex; flex-direction:column; gap:5px; margin-top:12px }
+.ttm-row {
+  display:flex; align-items:center; gap:10px;
+  background:rgba(0,0,0,.2); border-radius:6px; padding:7px 12px;
+}
+.ttm-row-icon { font-size:14px; flex-shrink:0; width:20px; text-align:center }
+.ttm-row-name { font-size:11px; color:var(--muted2); flex:1; font-weight:600 }
+.ttm-row-val  { font-size:11px; font-weight:800; font-family:'Lilita One',sans-serif }
+.ttm-row-bar  { width:80px; height:5px; background:rgba(255,255,255,.06); border-radius:3px; overflow:hidden; flex-shrink:0 }
+.ttm-row-fill { height:100%; border-radius:3px }
+
+/* PROGRESSION COMPLETENESS */
+.prog-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:10px }
+.prog-card {
+  background:rgba(0,0,0,.28); border:1px solid var(--border);
+  border-radius:10px; padding:14px 12px; position:relative;
+}
+.prog-cat  { font-size:10px; color:var(--muted); font-weight:700; letter-spacing:.5px; margin-bottom:8px; text-transform:uppercase }
+.prog-pct  { font-size:28px; font-weight:900; color:#fff; line-height:1; font-family:'Lilita One',sans-serif }
+.prog-bar  { background:rgba(0,0,0,.4); border-radius:4px; height:6px; overflow:hidden; margin:6px 0; border:1px solid rgba(0,0,0,.3) }
+.prog-fill { height:100%; border-radius:3px; position:relative }
+.prog-fill::after { content:''; position:absolute; top:0; left:0; right:0; height:50%; background:rgba(255,255,255,.2); border-radius:2px 2px 0 0 }
+.prog-detail { font-size:9px; color:var(--muted); margin-top:2px }
+.prog-grade {
+  position:absolute; top:10px; right:10px;
+  font-size:11px; font-weight:800; padding:2px 7px; border-radius:4px;
+  font-family:'Lilita One',sans-serif;
+}
+.grade-s { background:rgba(245,197,24,.2); color:var(--gold) }
+.grade-a { background:rgba(39,174,96,.2);  color:var(--green2) }
+.grade-b { background:rgba(52,152,219,.2); color:var(--blue2) }
+.grade-c { background:rgba(231,76,60,.2);  color:#ff9999 }
+.prog-overall {
+  background:linear-gradient(135deg,rgba(245,197,24,.1),rgba(245,197,24,.03));
+  border:1px solid rgba(245,197,24,.25); border-radius:12px;
+  padding:16px 20px; margin-bottom:14px;
+  display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+}
+.prog-overall-pct { font-size:48px; font-weight:900; color:var(--gold); font-family:'Lilita One',sans-serif; line-height:1 }
+.prog-overall-info { flex:1 }
+.prog-overall-label { font-size:14px; font-weight:800; color:#fff; margin-bottom:4px; font-family:'Lilita One',sans-serif }
+.prog-overall-sub   { font-size:12px; color:var(--muted2); line-height:1.6 }
+
+/* EQUIPMENT GRADE */
+.eq-grade-wrap { display:flex; flex-direction:column; gap:8px }
+.eq-hero-row {
+  display:flex; align-items:center; gap:10px;
+  background:rgba(0,0,0,.25); border:1px solid var(--border);
+  border-radius:9px; padding:10px 14px;
+}
+.eq-hero-img  { width:36px; height:36px; object-fit:contain; flex-shrink:0; filter:drop-shadow(0 2px 6px rgba(0,0,0,.7)) }
+.eq-hero-name { font-size:11px; font-weight:700; color:var(--muted2); width:100px; flex-shrink:0 }
+.eq-slots     { display:flex; gap:6px; flex:1 }
+.eq-slot {
+  display:flex; align-items:center; gap:5px;
+  background:rgba(0,0,0,.3); border-radius:6px; padding:4px 8px;
+  font-size:10px; flex:1;
+}
+.eq-slot.epic { background:rgba(168,85,247,.1); border:1px solid rgba(168,85,247,.25) }
+.eq-slot.rare { background:rgba(52,152,219,.08); border:1px solid rgba(52,152,219,.2) }
+.eq-slot img  { width:20px; height:20px; object-fit:contain; flex-shrink:0 }
+.eq-slot-name { color:var(--muted2); font-weight:600; font-size:9px }
+.eq-slot-lv   { margin-left:auto; font-size:9px; font-weight:800; font-family:'Lilita One',sans-serif }
+.eq-slot-lv.maxed { color:var(--gold) }
+.eq-slot-lv.near  { color:var(--green2) }
+.eq-slot-lv.low   { color:#ff9999 }
+.eq-hero-grade { font-size:11px; font-weight:800; padding:3px 9px; border-radius:20px; flex-shrink:0; font-family:'Lilita One',sans-serif }
+.g-meta  { background:rgba(245,197,24,.15); color:var(--gold);   border:1px solid rgba(245,197,24,.25) }
+.g-good  { background:rgba(39,174,96,.15);  color:var(--green2); border:1px solid rgba(39,174,96,.25) }
+.g-mixed { background:rgba(52,152,219,.15); color:var(--blue2);  border:1px solid rgba(52,152,219,.25) }
+.g-weak  { background:rgba(231,76,60,.15);  color:#ff9999;       border:1px solid rgba(231,76,60,.25) }
+
+/* GRIND VALUE */
+.grind-headline {
+  font-size:36px; font-weight:900; color:var(--gold);
+  font-family:'Lilita One',sans-serif; line-height:1; margin-bottom:4px;
+}
+.grind-sub { font-size:13px; color:var(--muted2); margin-bottom:16px; line-height:1.6 }
+.grind-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px }
+.grind-item {
+  background:rgba(0,0,0,.28); border:1px solid var(--border);
+  border-radius:9px; padding:12px; text-align:center;
+}
+.grind-val { font-size:18px; font-weight:800; color:#fff; font-family:'Lilita One',sans-serif; line-height:1; margin-bottom:3px }
+.grind-lbl { font-size:9px; color:var(--muted); letter-spacing:.5px }
+
+/* BUYER PROFILES */
+.buyer-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:10px }
+.buyer-card {
+  background:rgba(0,0,0,.25); border:1px solid var(--border);
+  border-radius:10px; padding:14px; transition:.2s;
+}
+.buyer-card.match    { border-color:rgba(39,174,96,.3);  background:rgba(39,174,96,.06) }
+.buyer-card.partial  { border-color:rgba(245,197,24,.25); background:rgba(245,197,24,.04) }
+.buyer-card.nomatch  { border-color:rgba(231,76,60,.2);  background:rgba(231,76,60,.04); opacity:.7 }
+.buyer-icon  { font-size:28px; margin-bottom:8px }
+.buyer-type  { font-size:13px; font-weight:800; color:#fff; margin-bottom:4px; font-family:'Lilita One',sans-serif }
+.buyer-desc  { font-size:11px; color:var(--muted2); line-height:1.55; margin-bottom:8px }
+.buyer-badge { font-size:10px; font-weight:700; padding:3px 10px; border-radius:20px; display:inline-block }
+.badge-match   { background:rgba(39,174,96,.2);  color:var(--green2); border:1px solid rgba(39,174,96,.3) }
+.badge-partial { background:rgba(245,197,24,.18); color:var(--gold);   border:1px solid rgba(245,197,24,.3) }
+.badge-no      { background:rgba(231,76,60,.15);  color:#ff9999;       border:1px solid rgba(231,76,60,.25) }
+

@@ -1,154 +1,109 @@
 # Lootbar — CoC Account Scanner
 
-> Real-time Clash of Clans account dashboard powered by the Supercell official API.
-> Built with CoC branding — Lilita One font, night sky background, gold UI system.
+> The most comprehensive Clash of Clans account intelligence dashboard ever built.
+> Real-time data from Supercell's official API — zero manual input, everything auto-generated.
 
-**🌐 Live Dashboard:** https://coc-dashboard-iqr3.onrender.com  
-**📊 Status Page:** https://stats.uptimerobot.com/Bx5dpSNS6c  
-**🐙 GitHub:** https://github.com/laimunchoong97/coc-dashboard
-
----
-
-## What It Does
-
-Paste any CoC player tag → instantly pulls **30+ data fields** from Supercell's official API.  
-Zero manual input. Everything auto-generated and API-verified.
+**🌐 Live:** https://coc-dashboard-iqr3.onrender.com  
+**📊 Status:** https://stats.uptimerobot.com/Bx5dpSNS6c
 
 ---
 
-## Dashboard Sections
+## Intelligence Engines (Unique — Nobody Else Has These)
 
-| Section | Data Shown |
+| Feature | What It Does |
 |---|---|
-| **Auto Listing Generator** | Copyable listing title + estimated price range ($USD) |
-| **Account Highlights** | Auto-generated selling point chips (Legend rank, hero %, research %, epic equipment) |
-| **Profile Banner** | TH image, name, tag, league, clan badge, trophies, war stars, capital, percentile badges |
-| **Account Score** | 0–100 score: TH (25pts) · Heroes (40pts) · Research (15pts) · War Stars (10pts) · Legend (10pts) |
-| **Legend League** | Current season trophies + rank, previous season, best ever, total legend trophies |
-| **Builder Base** | BH level + image, BH league name, trophies, best trophies, BB heroes |
-| **Heroes** | All 8 heroes (6 home + 2 BB) — 3D portrait, SVG ring chart, level badge, **equipped loadout chips** |
-| **Clan Recruitment Score** | 0–100 score with HIRE/WATCH/PASS verdict — 6 weighted factors with bars |
-| **Activity & Clan** | Attack wins, defense wins, **attack win rate bar**, donations, capital, war pref, clan card |
-| **Hero Equipment** | All 41 pieces in image grid — Epic/Rare with name labels, rarity dot, maxed colour |
-| **Research Progress** | 7-category bars: Elixir, Dark, Spells, Siege, Super, Pets, Builder Base |
-| **Troops & Spells** | 7-tab image grid — **active super troops shown first** with glow badge |
-| **Key Achievements** | Progress bars for 11 key achievements |
-| **Player Stats** | Games Champion, War League Legend, Most Valuable Clanmate, Well Seasoned, Win Rate, CWL Active |
-| **Compare Mode** | Side-by-side 2-player comparison with 13-metric diff table and visual bars |
-| **Ownership Verification** | Cryptographic proof via Supercell `verifytoken` — unique to CoC API |
-| **Raw JSON** | Full API response collapsible |
+| **⏱ Time to Max Calculator** | Estimates days remaining to fully max every hero, troop, spell and equipment piece. Works from any public tag — no login needed. |
+| **🧬 Playstyle DNA Radar** | 5-axis SVG radar chart scoring Warrior / Competitor / Team Player / Grinder / Veteran with auto-generated profile tag. |
+| **📊 Progression Intelligence** | 9-category completeness grid (Heroes, Elixir, Dark, Spells, Siege, Pets, Epic Equip, Rare Equip, Builder Base) each graded S/A/B/C. |
+| **⚔️ Hero Loadout Analysis** | Shows exactly which 2 equipment are equipped per hero, grades each loadout (Meta / Good / Mixed / Weak) against known meta combos. |
+| **💰 Grind Value** | Calculates hours invested, Gold Pass months, Gold Pass dollar value, and gem cost to skip remaining upgrades — shows buyers what they're actually saving. |
+| **🎯 Buyer Match Profiles** | Scores account fit for 6 buyer types: CWL War Player, Trophy Pusher, Max Grinder, Clan Leader, Equipment Collector, Budget Buyer. |
+| **🏷️ Auto Listing Generator** | Generates a ready-to-post listing title + estimated price range ($USD) with one-click copy. |
+| **🎯 Smart Price Engine** | Multi-factor price estimation: TH level + hero % + legend league + research + equipment maxed + war stars. |
 
 ---
 
-## Asset Coverage
+## Full Dashboard Sections (23 total)
 
-All images sourced from the official Clash of Clans Fandom Wiki CDN.
-
-| Category | Count | Coverage |
-|---|---|---|
-| Town Halls | 18 (TH1–TH18) | ✅ Complete |
-| Builder Halls | BH6–BH10 | ✅ Complete |
-| Heroes | 8 | ✅ Complete |
-| Elixir Troops | 19 | ✅ Complete |
-| Dark Troops | 10 | ✅ Complete |
-| Super Troops | 15 | ✅ Complete |
-| Siege Machines | 9 | ✅ Complete |
-| Pets | 12 | ✅ Complete |
-| Builder Base Troops | 11 | ✅ Complete |
-| Spells | 17 | ✅ Complete |
-| Hero Equipment | 41 | ✅ Complete |
+| Section | Data |
+|---|---|
+| Account Highlights | Auto chips: Legend rank, hero %, research %, epic equipment maxed |
+| Listing Card | Copyable title + USD price estimate |
+| Profile Banner | TH image, name, league, clan, trophies, war stars + percentile badges |
+| **Playstyle DNA** | SVG radar + 5-axis legend + profile tag |
+| **Account Intelligence** | Win rate, account age estimate, donations, BB league |
+| Account Score | 0–100 weighted score (TH/Heroes/Research/War/Legend) |
+| Legend League | Current + previous + best season trophies and rank |
+| Builder Base | BH level + league name + trophies + BB heroes |
+| Heroes | All 8 heroes — portrait, ring chart, level badge, **equipped loadout chips** |
+| Clan Recruitment Score | 0–100 HIRE/WATCH/PASS verdict — 6 weighted factors |
+| Activity & Clan | Attack wins, defense wins, **attack win rate bar**, donations, clan card |
+| Hero Equipment | 41 pieces — image grid with name, Epic/Rare, maxed colour |
+| Research Progress | 7-category bars: Elixir, Dark, Spells, Siege, Super, Pets, Builder |
+| Troops & Spells | 7-tab image grid — active super troops shown with glow badge |
+| Key Achievements | 11 achievement progress bars |
+| Player Stats | Games Champion, CWL wars, Capital Gold, Season Points, CWL active |
+| **⏱ Time to Max** | Per-category day estimates + top-8 incomplete items ranked |
+| **📊 Progression Intelligence** | 9-category grid with S/A/B/C grades + overall % |
+| **⚔️ Hero Loadout Analysis** | Per-hero equipment grade vs meta database |
+| **💰 Grind Value** | Hours saved, Gold Pass value, gem skip cost |
+| **🎯 Buyer Profiles** | 6 buyer type match cards (Great/Partial/Not Ideal) |
+| Compare Mode | Side-by-side 13-metric diff table with visual bars |
+| Raw JSON | Full API response (collapsible) |
 
 ---
 
-## Self-Hosting Setup
+## Asset Coverage — All Complete
 
-### 1. Clone
+| Category | Count |
+|---|---|
+| Town Halls | TH1–TH18 (18) |
+| Builder Halls | BH6–BH10 |
+| Heroes | 8 (all) |
+| Elixir Troops | 19 |
+| Dark Troops | 10 |
+| Super Troops | 15 |
+| Siege Machines | 9 |
+| Pets | 12 |
+| Builder Base Troops | 11 |
+| Spells | 17 (all, real images) |
+| Hero Equipment | 41 (all) |
+
+---
+
+## Setup
 
 ```bash
 git clone https://github.com/laimunchoong97/coc-dashboard.git
-cd coc-dashboard
-npm install
+cd coc-dashboard && npm install
+cp .env.example .env   # add your COC_API_KEY
+npm start              # http://localhost:3000
 ```
 
-### 2. Get a CoC API Key
-
-1. Go to [developer.clashofclans.com](https://developer.clashofclans.com)
-2. Register → **My Keys → Create New Key**
-3. Whitelist your server IP (find it at [whatismyip.com](https://whatismyip.com))
-4. Copy the generated API key
-
-### 3. Create `.env`
-
-```bash
-cp .env.example .env
-# Edit .env and set COC_API_KEY=your_key_here
-```
-
-### 4. Run
-
-```bash
-npm start
-# Open http://localhost:3000
-```
+**Get API key:** [developer.clashofclans.com](https://developer.clashofclans.com) → My Keys → Create Key → whitelist your IP.
 
 ---
 
-## Cloud Deployment (Render — Free)
+## Deploy to Render (Free, Static IP)
 
-1. Fork this repo
-2. [render.com](https://render.com) → **New → Web Service** → connect repo
-3. Build: `npm install` · Start: `node server.js`
-4. Environment → add `COC_API_KEY`
-5. Deploy → visit `https://your-app.onrender.com/api/myip` to get outbound IP
-6. Whitelist that IP in the CoC developer portal → update `COC_API_KEY` with new token
+1. Fork → [render.com](https://render.com) → New Web Service → connect repo
+2. Build: `npm install` · Start: `node server.js`
+3. Environment: `COC_API_KEY=your_key`
+4. After deploy: visit `/api/myip` to get outbound IP → whitelist in CoC portal
 
-### Keep Awake (UptimeRobot)
-
-1. [uptimerobot.com](https://uptimerobot.com) → New Monitor
-2. URL: your Render URL · Interval: 5 minutes
-3. Prevents Render free-tier sleep
+**Keep awake:** [uptimerobot.com](https://uptimerobot.com) → monitor your URL every 5 min.
 
 ---
 
 ## API Endpoints
 
-| Endpoint | Method | Description |
-|---|---|---|
-| `/api/player?tag=#XXXX` | GET | Full player data from Supercell API |
-| `/api/compare?tag1=&tag2=` | GET | Side-by-side comparison of two players |
-| `/api/verify` | POST | Ownership verification via verifytoken |
-| `/api/myip` | GET | Server's outbound IP (for API key setup) |
+| Endpoint | Description |
+|---|---|
+| `GET /api/player?tag=` | Full player data |
+| `GET /api/compare?tag1=&tag2=` | Side-by-side comparison |
+| `POST /api/verify` | Ownership verification |
+| `GET /api/myip` | Server outbound IP |
 
 ---
 
-## Environment Variables
-
-| Variable | Required | Description |
-|---|---|---|
-| `COC_API_KEY` | ✅ | Supercell developer API key (IP-locked) |
-| `PORT` | ❌ | Server port (default: 3000) |
-
----
-
-## Tech Stack
-
-- **Backend:** Node.js + Express
-- **Frontend:** Vanilla HTML/CSS/JS — no framework
-- **Fonts:** Lilita One (CoC-style) + Nunito via Google Fonts
-- **Images:** Clash of Clans Fandom Wiki CDN (150+ assets)
-- **API:** Supercell Clash of Clans official API
-- **Hosting:** Render (free tier)
-- **Uptime:** UptimeRobot
-
----
-
-## Notes
-
-- The CoC API key is **IP-locked** — calls must come from the whitelisted server IP
-- Never commit your `.env` file — it's in `.gitignore`
-- For local dev, create a **separate API key** with your home IP whitelisted
-- Editing the key in the CoC portal generates a **new token** — update `COC_API_KEY` on Render too
-
----
-
-*Built for [Lootbar.com](https://lootbar.com) — Game Account Trading Platform*
+*Built for [Lootbar.com](https://lootbar.com)*

@@ -198,6 +198,19 @@
     <!-- Profile -->
     <div class="profile-banner full" id="profBanner"></div>
 
+    <!-- Row: Playstyle DNA + Account Intelligence -->
+    <div class="g2">
+      <div class="sc">
+        <div class="sc-title"><div class="sc-dot" style="background:var(--gold)"></div>Playstyle DNA</div>
+        <div class="dna-wrap" id="dnaWrap"></div>
+        <div class="dna-profile-tag" id="dnaTag"></div>
+      </div>
+      <div class="sc">
+        <div class="sc-title"><div class="sc-dot" style="background:var(--cyan)"></div>Account Intelligence</div>
+        <div class="intel-grid" id="intelGrid"></div>
+      </div>
+    </div>
+
     <!-- Row 1: Score | Legend | Builder -->
     <div class="g347">
       <div class="sc gold-border">
@@ -286,7 +299,7 @@
       <div class="troops-grid" id="troopGrid"></div>
     </div>
 
-    <!-- Achievements | Raw -->
+    <!-- Achievements | Player Stats | Raw -->
     <div class="g2">
       <div class="sc">
         <div class="sc-title"><div class="sc-dot" style="background:var(--green2)"></div>Key Achievements</div>
@@ -296,13 +309,47 @@
         <div class="sc-title"><div class="sc-dot" style="background:var(--gold)"></div>Player Stats</div>
         <div class="player-stats-grid" id="playerStatsGrid"></div>
       </div>
-      <div class="sc raw-toggle-btn" onclick="toggleRaw()">
-        <div class="sc-title">
-          <div class="sc-dot" style="background:var(--muted)"></div>Raw API Response
-          <span class="sc-right" id="rawToggle">▼ Show</span>
-        </div>
-        <div id="rawWrap" style="display:none"><pre class="raw" id="rawPre"></pre></div>
+    </div>
+
+    <!-- Time to Max -->
+    <div class="sc full">
+      <div class="sc-title"><div class="sc-dot" style="background:var(--orange)"></div>⏱ Time to Max Calculator<span class="sc-right">Approximate — based on current level tiers</span></div>
+      <div id="timeToMax"></div>
+    </div>
+
+    <!-- Progression Intelligence -->
+    <div class="sc full">
+      <div class="sc-title"><div class="sc-dot" style="background:var(--cyan)"></div>Progression Intelligence<span class="sc-right" id="progOverallLabel"></span></div>
+      <div id="progIntel"></div>
+    </div>
+
+    <!-- Equipment Loadout Grade -->
+    <div class="sc full">
+      <div class="sc-title"><div class="sc-dot" style="background:var(--purple2)"></div>Hero Loadout Analysis<span class="sc-right" id="loadoutGrade"></span></div>
+      <div class="eq-grade-wrap" id="eqGradeWrap"></div>
+    </div>
+
+    <!-- Grind Value | Buyer Profiles -->
+    <div class="g2">
+      <div class="sc">
+        <div class="sc-title"><div class="sc-dot" style="background:var(--green2)"></div>Grind Value</div>
+        <div class="grind-headline" id="grindHours"></div>
+        <div class="grind-sub" id="grindSub"></div>
+        <div class="grind-grid" id="grindGrid"></div>
       </div>
+      <div class="sc">
+        <div class="sc-title"><div class="sc-dot" style="background:var(--blue2)"></div>Who Should Buy This?</div>
+        <div class="buyer-grid" id="buyerGrid"></div>
+      </div>
+    </div>
+
+    <!-- Raw JSON -->
+    <div class="sc full raw-toggle-btn" onclick="toggleRaw()">
+      <div class="sc-title">
+        <div class="sc-dot" style="background:var(--muted)"></div>Raw API Response
+        <span class="sc-right" id="rawToggle">▼ Show</span>
+      </div>
+      <div id="rawWrap" style="display:none"><pre class="raw" id="rawPre"></pre></div>
     </div>
 
   </div><!-- /#dash -->
@@ -450,6 +497,8 @@ function render(p) {
   renderListing(p);
   renderHighlights(p);
   renderProfile(p);
+  renderPlaystyleDNA(p);
+  renderAccountIntelligence(p);
   renderScore(p);
   renderLegend(p);
   renderBB(p);
@@ -461,6 +510,11 @@ function render(p) {
   renderTroops(p);
   renderAchievements(p);
   renderPlayerStats(p);
+  renderTimeToMax(p);
+  renderProgressionIntel(p);
+  renderEquipmentGrade(p);
+  renderGrindValue(p);
+  renderBuyerProfiles(p);
   qs('#rawPre').textContent = JSON.stringify(p, null, 2);
 }
 
@@ -974,6 +1028,445 @@ function renderPlayerStats(p) {
       '<div class="ps-val">'+s.val+'</div>'+
       '<div class="ps-lbl">'+s.lbl+'</div>'+
       '<div class="ps-sub">'+s.sub+'</div>'+
+    '</div>';
+  }).join('');
+}
+
+/* ══════════════════════════════════════
+   INTELLIGENCE ENGINES
+══════════════════════════════════════ */
+
+/* ── UPGRADE TIME ESTIMATOR ── */
+function estimateUpgradeDays(name, currentLevel, maxLevel, type) {
+  var left = maxLevel - currentLevel;
+  if (left <= 0) return 0;
+  var pct = currentLevel / maxLevel;
+  // Hero times (days/level based on level tier)
+  if (type === 'hero') {
+    if (pct >= 0.9)  return left * 6.5;
+    if (pct >= 0.75) return left * 5;
+    if (pct >= 0.5)  return left * 3;
+    return left * 1.5;
+  }
+  // Equipment (days/level)
+  if (type === 'equip') {
+    if (maxLevel >= 20) { // epic
+      if (pct >= 0.85) return left * 8;
+      if (pct >= 0.6)  return left * 5;
+      return left * 2;
+    } else { // rare
+      if (pct >= 0.85) return left * 4;
+      if (pct >= 0.6)  return left * 2.5;
+      return left * 1;
+    }
+  }
+  // Lab — troops/spells (days/level, sequential)
+  if (pct >= 0.85) return left * 11;
+  if (pct >= 0.7)  return left * 8;
+  if (pct >= 0.5)  return left * 5;
+  if (pct >= 0.3)  return left * 2;
+  return left * 0.5;
+}
+
+/* ── TIME TO MAX ── */
+function renderTimeToMax(p) {
+  var homeH   = (p.heroes||[]).filter(function(h){return h.village==='home';});
+  var homeTrp = (p.troops||[]).filter(function(t){return t.village==='home'&&!SUPER_LIST.includes(t.name)&&!PET_NAMES.has(t.name)&&!SIEGE_NAMES.has(t.name);});
+  var homeSpl = (p.spells||[]).filter(function(s){return s.village==='home';});
+  var equip   = p.heroEquipment||[];
+
+  var heroDays  = homeH.reduce(function(s,h){return s+estimateUpgradeDays(h.name,h.level,h.maxLevel,'hero');},0);
+  var troopDays = homeTrp.reduce(function(s,t){return s+estimateUpgradeDays(t.name,t.level,t.maxLevel,'lab');},0);
+  var spellDays = homeSpl.reduce(function(s,t){return s+estimateUpgradeDays(t.name,t.level,t.maxLevel,'lab');},0);
+  var equipDays = equip.reduce(function(s,e){return s+estimateUpgradeDays(e.name,e.level,e.maxLevel,'equip');},0);
+  var labDays   = troopDays + spellDays; // lab is sequential
+
+  // With 5 builders: heroes can run in parallel (sort longest first)
+  var heroSlots = homeH.map(function(h){return estimateUpgradeDays(h.name,h.level,h.maxLevel,'hero');}).sort(function(a,b){return b-a;});
+  var parallelHeroDays = heroSlots.length>0 ? heroSlots[0] : 0; // critical path with parallel builders
+  var parallelEquipDays = equipDays / Math.min(5, equip.filter(function(e){return e.level<e.maxLevel;}).length||1);
+  var builderDays = Math.max(parallelHeroDays, parallelEquipDays);
+  var totalDays   = Math.max(labDays, builderDays);
+
+  var maxLabLeft   = Math.round(labDays);
+  var maxHeroLeft  = Math.round(heroDays);
+  var maxEquipLeft = Math.round(equipDays);
+  var maxTotal     = Math.round(totalDays);
+
+  var fmtDays = function(d) {
+    if (d <= 0) return '<span style="color:var(--green2)">MAXED ✅</span>';
+    if (d < 30)  return '<span style="color:var(--green2)">'+Math.round(d)+'d</span>';
+    if (d < 90)  return '<span style="color:var(--gold)">'+Math.round(d/7)+'w</span>';
+    return '<span style="color:#ff9999)">'+Math.round(d/30)+'mo</span>';
+  };
+
+  // Top incomplete items
+  var incomplete = [];
+  homeH.forEach(function(h){
+    var d=estimateUpgradeDays(h.name,h.level,h.maxLevel,'hero');
+    if(d>0) incomplete.push({name:h.name,left:h.maxLevel-h.level,days:d,type:'hero',img:IMGS.heroes[h.name]||''});
+  });
+  homeTrp.concat(homeSpl).forEach(function(u){
+    var d=estimateUpgradeDays(u.name,u.level,u.maxLevel,'lab');
+    var img=IMGS.troops[u.name]||IMGS.spells[u.name]||'';
+    if(d>0) incomplete.push({name:u.name,left:u.maxLevel-u.level,days:d,type:'lab',img:img});
+  });
+  incomplete.sort(function(a,b){return b.days-a.days;});
+  var maxD = incomplete.length>0 ? incomplete[0].days : 1;
+
+  qs('#timeToMax').innerHTML =
+    '<div class="ttm-overview">'+
+      mkTTMCard('🗡','Heroes',Math.round(heroDays),'builder days','With 5 builders in parallel: ~'+Math.round(parallelHeroDays)+'d','heroes')+
+      mkTTMCard('⚗️','Lab (Troops)',''+Math.round(troopDays),'lab days','Sequential — one at a time','troops')+
+      mkTTMCard('✨','Lab (Spells)',''+Math.round(spellDays),'lab days','Included in lab total','spells')+
+      mkTTMCard('💎','Equipment',''+Math.round(equipDays),'builder days','Can run with builders','equip')+
+      '<div class="ttm-card total" style="border:2px solid rgba(233,69,96,.4)">'+
+        '<div class="ttm-unit">TOTAL</div>'+
+        '<div class="ttm-days" style="color:var(--accent)">'+Math.round(totalDays)+'d</div>'+
+        '<div class="ttm-lbl">Estimated</div>'+
+        '<div class="ttm-sub">Critical path</div>'+
+      '</div>'+
+    '</div>'+
+    (incomplete.length>0 ?
+      '<div class="ttm-breakdown">'+
+        incomplete.slice(0,8).map(function(u){
+          var pct=Math.min(Math.round(u.days/maxD*100),100);
+          var col=u.days>60?'#E74C3C':u.days>20?'#F5C518':'#2ECC71';
+          return '<div class="ttm-row">'+
+            (u.img?'<img src="'+u.img+'" width="22" height="22" style="object-fit:contain;flex-shrink:0"/>':'<span class="ttm-row-icon">⚔</span>')+
+            '<span class="ttm-row-name">'+u.name+'</span>'+
+            '<span style="font-size:9px;color:var(--muted);margin-right:4px">'+u.left+' levels</span>'+
+            '<div class="ttm-row-bar"><div class="ttm-row-fill" style="width:'+pct+'%;background:'+col+'"></div></div>'+
+            '<span class="ttm-row-val" style="color:'+col+'">~'+Math.round(u.days)+'d</span>'+
+          '</div>';
+        }).join('')+
+      '</div>' : '')+
+    '<div class="ttm-note">⚠️ Estimates use average upgrade times per level tier. Actual times vary. Does not include Super Troops, Siege Machines or Builder Base.</div>';
+}
+
+function mkTTMCard(icon, label, val, unit, sub, cls) {
+  return '<div class="ttm-card '+cls+'">'+
+    '<div class="ttm-unit">'+icon+' '+unit.toUpperCase()+'</div>'+
+    '<div class="ttm-days">'+val+'</div>'+
+    '<div class="ttm-lbl">'+label+'</div>'+
+    '<div class="ttm-sub">'+sub+'</div>'+
+  '</div>';
+}
+
+/* ── PLAYSTYLE DNA ── */
+function renderPlaystyleDNA(p) {
+  var achs = {};
+  (p.achievements||[]).forEach(function(a){ achs[a.name]=a; });
+  var homeH   = (p.heroes||[]).filter(function(h){return h.village==='home';});
+  var hTot    = homeH.reduce(function(s,h){return s+h.level;},0);
+  var hMax    = homeH.reduce(function(s,h){return s+h.maxLevel;},0);
+  var allU    = (p.troops||[]).filter(function(t){return t.village==='home'&&!PET_NAMES.has(t.name)&&!SIEGE_NAMES.has(t.name)&&!SUPER_LIST.includes(t.name);}).concat((p.spells||[]).filter(function(s){return s.village==='home';}));
+  var resPct  = allU.length>0?allU.filter(function(u){return u.level>=u.maxLevel;}).length/allU.length:0;
+  var atkTotal= (p.attackWins||0)+(p.defenseWins||0);
+  var atkRate = atkTotal>0?(p.attackWins||0)/atkTotal:0;
+  var ls      = p.legendStatistics;
+
+  var axes = [
+    { label:'Warrior',    score: Math.min(100, Math.round(((p.warStars||0)/3000)*60 + atkRate*40)), color:'#E74C3C'  },
+    { label:'Competitor', score: Math.min(100, Math.round(((p.bestTrophies||0)/6500)*60 + (ls&&ls.currentSeason?40:ls&&ls.previousSeason?20:0))), color:'#F5C518' },
+    { label:'Team',       score: Math.min(100, Math.round(Math.min((p.donations||0)/2000,1)*50 + Math.min((p.clanCapitalContributions||0)/3000000,1)*50)), color:'#2ECC71' },
+    { label:'Grinder',    score: Math.min(100, Math.round(resPct*60 + Math.min(((achs['Well Seasoned']&&achs['Well Seasoned'].value)||0)/200000,1)*40)), color:'#9B59B6' },
+    { label:'Veteran',    score: Math.min(100, Math.round(Math.min((p.expLevel||0)/300,1)*40 + Math.min((p.warStars||0)/2000,1)*30 + Math.min(((achs['Gold Grab']&&achs['Gold Grab'].value)||0)/2000000000,1)*30)), color:'#3498DB' },
+  ];
+
+  var svg = makeSVGRadar(axes, 200);
+  var profile = getPlaystyleProfile(axes);
+
+  qs('#dnaWrap').innerHTML = '<div class="dna-svg-wrap">'+svg+'</div>'+
+    '<div class="dna-legend">'+axes.map(function(a){
+      return '<div class="dna-axis">'+
+        '<div class="dna-axis-dot" style="background:'+a.color+'"></div>'+
+        '<span class="dna-axis-label">'+a.label+'</span>'+
+        '<div style="flex:1;height:4px;background:rgba(0,0,0,.3);border-radius:2px;overflow:hidden;margin:0 8px">'+
+          '<div style="height:100%;width:'+a.score+'%;background:'+a.color+';border-radius:2px"></div>'+
+        '</div>'+
+        '<span class="dna-axis-score" style="color:'+a.color+'">'+a.score+'</span>'+
+      '</div>';
+    }).join('')+'</div>';
+  qs('#dnaTag').textContent = profile;
+}
+
+function makeSVGRadar(axes, size) {
+  var n=axes.length, cx=size/2, cy=size/2, r=size*0.34, lr=size*0.46;
+  function pt(i,v,mx){var a=(Math.PI*2*i/n)-Math.PI/2,d=(v/mx)*r;return{x:cx+d*Math.cos(a),y:cy+d*Math.sin(a)};}
+  var grid='';
+  for(var g=1;g<=4;g++){
+    var pts=axes.map(function(_,i){var p=pt(i,g*25,100);return p.x.toFixed(1)+','+p.y.toFixed(1);});
+    grid+='<polygon points="'+pts.join(' ')+'" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="1"/>';
+  }
+  var axLines=axes.map(function(_,i){var p=pt(i,100,100);return'<line x1="'+cx+'" y1="'+cy+'" x2="'+p.x.toFixed(1)+'" y2="'+p.y.toFixed(1)+'" stroke="rgba(255,255,255,.07)" stroke-width="1"/>';}).join('');
+  var dataPts=axes.map(function(a,i){var p=pt(i,a.score,100);return p.x.toFixed(1)+','+p.y.toFixed(1);});
+  var poly='<polygon points="'+dataPts.join(' ')+'" fill="rgba(245,197,24,.18)" stroke="'+axes[0].color+'" stroke-width="2" opacity=".9"/>';
+  var dots=axes.map(function(a,i){var p=pt(i,a.score,100);return'<circle cx="'+p.x.toFixed(1)+'" cy="'+p.y.toFixed(1)+'" r="3.5" fill="'+a.color+'"/>';}).join('');
+  var labels=axes.map(function(a,i){
+    var a2=(Math.PI*2*i/n)-Math.PI/2;
+    var lx=(cx+lr*Math.cos(a2)).toFixed(1),ly=(cy+lr*Math.sin(a2)).toFixed(1);
+    return '<text x="'+lx+'" y="'+ly+'" text-anchor="middle" dominant-baseline="middle" fill="'+a.color+'" font-size="9" font-family="Lilita One,sans-serif">'+a.label+'</text>';
+  }).join('');
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 '+size+' '+size+'">'+grid+axLines+poly+dots+labels+'</svg>';
+}
+
+function getPlaystyleProfile(axes) {
+  var sorted=axes.slice().sort(function(a,b){return b.score-a.score;});
+  var top=sorted[0],second=sorted[1];
+  var profiles={
+    'Warrior+Competitor':'⚔️🏆 Elite War Competitor',
+    'Warrior+Veteran':   '⚔️🏰 Battle-Hardened Warrior',
+    'Warrior+Grinder':   '⚔️⚙️ War-Focused Maxer',
+    'Competitor+Veteran':'🏆🏰 Seasoned Trophy Pusher',
+    'Competitor+Grinder':'🏆⚙️ Competitive Perfectionist',
+    'Grinder+Veteran':   '⚙️🏰 Long-Term Max Grinder',
+    'Team+Warrior':      '🤝⚔️ Active Clan Warrior',
+    'Team+Grinder':      '🤝⚙️ Dedicated Clan Builder',
+    'Veteran+Warrior':   '🏰⚔️ Legend-Era Veteran',
+  };
+  var key=top.label+'+'+second.label;
+  return profiles[key]||'⚔️ '+top.label+' Dominant Player';
+}
+
+/* ── ACCOUNT INTELLIGENCE ── */
+function renderAccountIntelligence(p) {
+  var achs={};
+  (p.achievements||[]).forEach(function(a){achs[a.name]=a;});
+  var atkTotal=(p.attackWins||0)+(p.defenseWins||0);
+  var wr=atkTotal>0?Math.round((p.attackWins||0)/atkTotal*100):0;
+
+  // Account age estimate from veteran indicators
+  var warYrs = (p.warStars||0)/400;       // ~400 war stars/year active
+  var achYrs = Math.min(((achs['Gold Grab']&&achs['Gold Grab'].value)||0)/500000000,8);
+  var expYrs = Math.min((p.expLevel||0)/45,8);
+  var estYrs = Math.round((warYrs*0.4+achYrs*0.3+expYrs*0.3)*10)/10;
+  var ageLabel = estYrs>=6?'Veteran (6+ yrs)':estYrs>=4?'Experienced (4–6 yrs)':estYrs>=2?'Established (2–4 yrs)':'Growing (1–2 yrs)';
+
+  var items=[
+    {val:wr+'%',     lbl:'Attack Win Rate'},
+    {val:ageLabel,   lbl:'Est. Account Age'},
+    {val:fmtK(((achs['Friend in Need']&&achs['Friend in Need'].value)||0)), lbl:'Troops Donated'},
+    {val:p.builderBaseLeague?p.builderBaseLeague.name:'—', lbl:'BB League'},
+  ];
+  qs('#intelGrid').innerHTML=items.map(function(it){
+    return '<div class="intel-item"><div class="intel-val">'+it.val+'</div><div class="intel-lbl">'+it.lbl+'</div></div>';
+  }).join('');
+}
+
+/* ── PROGRESSION INTELLIGENCE ── */
+function renderProgressionIntel(p) {
+  var homeTrp=(p.troops||[]).filter(function(t){return t.village==='home'&&!SUPER_LIST.includes(t.name);});
+  var homeSpl=(p.spells||[]).filter(function(s){return s.village==='home';});
+  var bbTrp  =(p.troops||[]).filter(function(t){return t.village==='builderBase';});
+  var homeH  =(p.heroes||[]).filter(function(h){return h.village==='home';});
+  var equip  = p.heroEquipment||[];
+  var pets   = homeTrp.filter(function(t){return PET_NAMES.has(t.name);});
+  var siege  = homeTrp.filter(function(t){return SIEGE_NAMES.has(t.name);});
+  var elixir = homeTrp.filter(function(t){return classifyTroop(t.name)==='elixir';});
+  var dark   = homeTrp.filter(function(t){return classifyTroop(t.name)==='dark';});
+
+  function catPct(arr){ if(!arr.length)return 0; return Math.round(arr.filter(function(u){return u.level>=u.maxLevel;}).length/arr.length*100); }
+  function grade(pct){ return pct>=95?'S':pct>=80?'A':pct>=60?'B':'C'; }
+  function gradeClass(pct){ return pct>=95?'grade-s':pct>=80?'grade-a':pct>=60?'grade-b':'grade-c'; }
+  function barColor(pct){ return pct>=90?'linear-gradient(90deg,#C47800,#FFB800)':pct>=70?'linear-gradient(90deg,#1A6B35,#2ECC71)':pct>=40?'linear-gradient(90deg,#1A5FA8,#4DAEF0)':'linear-gradient(90deg,#8B1428,#E74C3C)'; }
+
+  var heroTot=homeH.reduce(function(s,h){return s+h.level;},0);
+  var heroMax=homeH.reduce(function(s,h){return s+h.maxLevel;},0);
+  var heroPct=heroMax>0?Math.round(heroTot/heroMax*100):0;
+  var epicE=equip.filter(function(e){return e.maxLevel>=20;});
+  var rareE=equip.filter(function(e){return e.maxLevel<20;});
+  var epicPct=epicE.length>0?Math.round(epicE.filter(function(e){return e.level>=e.maxLevel;}).length/epicE.length*100):0;
+  var rarePct=rareE.length>0?Math.round(rareE.filter(function(e){return e.level>=e.maxLevel;}).length/rareE.length*100):0;
+
+  var cats=[
+    {name:'Heroes',       pct:heroPct,              detail:homeH.filter(function(h){return h.level>=h.maxLevel;}).length+'/'+homeH.length+' maxed'},
+    {name:'Elixir Troops',pct:catPct(elixir),       detail:elixir.filter(function(u){return u.level>=u.maxLevel;}).length+'/'+elixir.length+' maxed'},
+    {name:'Dark Troops',  pct:catPct(dark),          detail:dark.filter(function(u){return u.level>=u.maxLevel;}).length+'/'+dark.length+' maxed'},
+    {name:'Spells',       pct:catPct(homeSpl),       detail:homeSpl.filter(function(u){return u.level>=u.maxLevel;}).length+'/'+homeSpl.length+' maxed'},
+    {name:'Siege Machines',pct:catPct(siege),        detail:siege.filter(function(u){return u.level>=u.maxLevel;}).length+'/'+siege.length+' maxed'},
+    {name:'Pets',         pct:catPct(pets),           detail:pets.filter(function(u){return u.level>=u.maxLevel;}).length+'/'+pets.length+' maxed'},
+    {name:'Epic Equip',   pct:epicPct,               detail:epicE.filter(function(e){return e.level>=e.maxLevel;}).length+'/'+epicE.length+' maxed'},
+    {name:'Rare Equip',   pct:rarePct,               detail:rareE.filter(function(e){return e.level>=e.maxLevel;}).length+'/'+rareE.length+' maxed'},
+    {name:'Builder Base', pct:catPct(bbTrp),          detail:bbTrp.filter(function(u){return u.level>=u.maxLevel;}).length+'/'+bbTrp.length+' maxed'},
+  ];
+  var allPct=Math.round(cats.reduce(function(s,c){return s+c.pct;},0)/cats.length);
+  var overallGrade=allPct>=90?'S — Near Perfect':allPct>=75?'A — Strong':allPct>=55?'B — Developing':'C — Early Stage';
+
+  qs('#progOverallLabel').textContent=allPct+'% overall · Grade '+grade(allPct);
+  qs('#progIntel').innerHTML=
+    '<div class="prog-overall">'+
+      '<div class="prog-overall-pct">'+allPct+'%</div>'+
+      '<div class="prog-overall-info">'+
+        '<div class="prog-overall-label">'+overallGrade+'</div>'+
+        '<div class="prog-overall-sub">TH'+p.townHallLevel+' account at '+allPct+'% of full progression potential across all categories</div>'+
+      '</div>'+
+    '</div>'+
+    '<div class="prog-grid">'+
+    cats.map(function(c){
+      return '<div class="prog-card">'+
+        '<div class="prog-grade '+gradeClass(c.pct)+'">'+grade(c.pct)+'</div>'+
+        '<div class="prog-cat">'+c.name+'</div>'+
+        '<div class="prog-pct" style="color:'+(c.pct>=90?'var(--gold)':c.pct>=70?'var(--green2)':c.pct>=40?'var(--blue2)':'#ff9999')+'">'+c.pct+'%</div>'+
+        '<div class="prog-bar"><div class="prog-fill" style="width:'+c.pct+'%;background:'+barColor(c.pct)+'"></div></div>'+
+        '<div class="prog-detail">'+c.detail+'</div>'+
+      '</div>';
+    }).join('')+
+    '</div>';
+}
+
+/* ── EQUIPMENT LOADOUT GRADE ── */
+function renderEquipmentGrade(p) {
+  // Meta loadout database (known strong combos)
+  var META = {
+    'Barbarian King': ['Spiky Ball','Giant Gauntlet','Barbarian Puppet','Earthquake Boots','Snake Bracelet','Rage Vial'],
+    'Archer Queen':   ['Frozen Arrow','Archer Puppet','Invisibility Vial','Giant Arrow','Seeking Shield','Monolith Arrow','Action Figure'],
+    'Grand Warden':   ['Eternal Tome','Life Gem','Rage Gem','Heroic Torch','Magic Mirror','Healing Tome','Dark Crown','Lavaloon Puppet'],
+    'Royal Champion': ['Hog Rider Puppet','Rocket Backpack','Seeking Shield','Haste Vial','Frost Flake','Electro Boots'],
+    'Minion Prince':  ['Dark Crown','Henchmen Puppet','Electro Boots','Metal Pants','Rocket Backpack','Meteor Staff','Magic Mirror'],
+    'Dragon Duke':    ['Fireball','Electro Fangs','Fire Heart','Stun Blaster','Flame Blower'],
+  };
+
+  var homeH=(p.heroes||[]).filter(function(h){return h.village==='home';});
+  var grades=[];
+  var totalScore=0,gradeCount=0;
+
+  var rows=homeH.map(function(h){
+    if(!h.equipment||!h.equipment.length) return '';
+    var metaList=META[h.name]||[];
+    var metaMatches=h.equipment.filter(function(e){return metaList.indexOf(e.name)>=0;}).length;
+    var allMaxed=h.equipment.every(function(e){return e.level>=e.maxLevel;});
+    var anyMaxed=h.equipment.some(function(e){return e.level>=e.maxLevel;});
+    var score=Math.round((metaMatches/h.equipment.length)*60 + (allMaxed?40:anyMaxed?20:0));
+    totalScore+=score; gradeCount++;
+    var g=score>=85?{lbl:'Meta',cls:'g-meta'}:score>=65?{lbl:'Good',cls:'g-good'}:score>=40?{lbl:'Mixed',cls:'g-mixed'}:{lbl:'Weak',cls:'g-weak'};
+    var img=IMGS.heroes[h.name]||'';
+    return '<div class="eq-hero-row">'+
+      (img?'<img class="eq-hero-img" src="'+img+'" alt="'+h.name+'"/>':'<span style="font-size:24px">🗡</span>')+
+      '<span class="eq-hero-name">'+h.name.replace('Barbarian King','BK').replace('Archer Queen','AQ').replace('Grand Warden','GW').replace('Royal Champion','RC').replace('Minion Prince','MP').replace('Dragon Duke','DD')+'</span>'+
+      '<div class="eq-slots">'+h.equipment.map(function(e){
+        var isE=e.maxLevel>=20,pct=Math.round(e.level/e.maxLevel*100);
+        var lvCls=e.level>=e.maxLevel?'maxed':pct>=80?'near':'low';
+        var img2=IMGS.equipment[e.name]||'';
+        return '<div class="eq-slot '+(isE?'epic':'rare')+'">'+
+          (img2?'<img src="'+img2+'" width="20" height="20"/>':'')+'<span class="eq-slot-name">'+e.name.split(' ').slice(0,2).join(' ')+'</span>'+
+          '<span class="eq-slot-lv '+lvCls+'">'+e.level+'/'+e.maxLevel+'</span>'+
+        '</div>';
+      }).join('')+'</div>'+
+      '<div class="eq-hero-grade '+g.cls+'">'+g.lbl+'</div>'+
+    '</div>';
+  }).join('');
+
+  var overallScore = gradeCount>0?Math.round(totalScore/gradeCount):0;
+  var overallG=overallScore>=85?'A — Meta Builds':overallScore>=65?'B — Solid Setup':overallScore>=45?'C — Needs Work':'D — Not Optimised';
+  qs('#loadoutGrade').textContent='Overall: '+overallG;
+  qs('#eqGradeWrap').innerHTML=rows;
+}
+
+/* ── GRIND VALUE ── */
+function renderGrindValue(p) {
+  var homeH  =(p.heroes||[]).filter(function(h){return h.village==='home';});
+  var hTot   = homeH.reduce(function(s,h){return s+h.level;},0);
+  var hMax   = homeH.reduce(function(s,h){return s+h.maxLevel;},0);
+  var allU   = (p.troops||[]).filter(function(t){return t.village==='home'&&!PET_NAMES.has(t.name)&&!SIEGE_NAMES.has(t.name)&&!SUPER_LIST.includes(t.name);}).concat((p.spells||[]).filter(function(s){return s.village==='home';}));
+  var resPct = allU.length>0?allU.filter(function(u){return u.level>=u.maxLevel;}).length/allU.length:0;
+  var ls     = p.legendStatistics;
+
+  // Total days this account has been progressed (estimate)
+  var heroDays  = hMax>0?Math.round((hTot/hMax) * 730) : 0;  // 2 yrs to full heroes
+  var troopDays = Math.round(resPct * 548);                    // ~18mo to max lab
+  var thDays    = Math.round((p.townHallLevel/18) * 1460);    // 4 yrs to TH18 from scratch
+  var totalDays = Math.max(thDays, heroDays+troopDays);
+  var hours     = Math.round(totalDays * 0.5);                 // ~30min active/day
+
+  // Gold pass months (approx $5/mo)
+  var goldPassMonths = Math.round(totalDays / 30);
+  var goldPassValue  = goldPassMonths * 5;
+
+  // Gem equivalent to skip all remaining upgrades
+  var equip  = p.heroEquipment||[];
+  var labDays= (p.troops||[]).filter(function(t){return t.village==='home'&&!SUPER_LIST.includes(t.name)&&!PET_NAMES.has(t.name)&&!SIEGE_NAMES.has(t.name);}).concat((p.spells||[]).filter(function(s){return s.village==='home';})).reduce(function(s,u){return s+estimateUpgradeDays(u.name,u.level,u.maxLevel,'lab');},0);
+  var hRemain= homeH.reduce(function(s,h){return s+estimateUpgradeDays(h.name,h.level,h.maxLevel,'hero');},0);
+  var gemsToSkip = Math.round((labDays+hRemain)*260); // ~260 gems per day skip
+  var gemValue   = Math.round(gemsToSkip/500*4.99);   // $4.99 per 500 gems
+
+  qs('#grindHours').innerHTML = hours.toLocaleString()+' hrs';
+  qs('#grindSub').textContent = 'Estimated time invested in this account. Buying it saves you all of this grind.';
+  qs('#grindGrid').innerHTML=[
+    {val:'~'+totalDays.toLocaleString()+'d', lbl:'Total Play Days'},
+    {val:'~'+goldPassMonths+' mo',            lbl:'Gold Pass Months'},
+    {val:'$'+goldPassValue.toLocaleString(),  lbl:'Gold Pass Value'},
+    {val:Math.round(gemsToSkip/1000)+'K',     lbl:'Gems to Skip Remaining'},
+    {val:'$'+gemValue.toLocaleString(),        lbl:'Skip Cost (gem value)'},
+    {val:p.warStars+' ⭐',                    lbl:'War Stars Earned'},
+  ].map(function(i){
+    return '<div class="grind-item"><div class="grind-val">'+i.val+'</div><div class="grind-lbl">'+i.lbl+'</div></div>';
+  }).join('');
+}
+
+/* ── BUYER PROFILES ── */
+function renderBuyerProfiles(p) {
+  var homeH  =(p.heroes||[]).filter(function(h){return h.village==='home';});
+  var hPct   = homeH.length>0?homeH.reduce(function(s,h){return s+h.level;},0)/homeH.reduce(function(s,h){return s+h.maxLevel;},0):0;
+  var allU   = (p.troops||[]).filter(function(t){return t.village==='home'&&!PET_NAMES.has(t.name)&&!SIEGE_NAMES.has(t.name)&&!SUPER_LIST.includes(t.name);}).concat((p.spells||[]).filter(function(s){return s.village==='home';}));
+  var resPct = allU.length>0?allU.filter(function(u){return u.level>=u.maxLevel;}).length/allU.length:0;
+  var ls     = p.legendStatistics;
+  var isLegend    = !!(ls&&ls.currentSeason);
+  var warActive   = (p.warStars||0)>=1000;
+  var maxHeroes   = hPct>=0.9;
+  var highTH      = p.townHallLevel>=16;
+  var donator     = (p.donations||0)>=500;
+  var inCWL       = !!(p.currentLeagueGroupTag);
+  var goodEquip   = (p.heroEquipment||[]).filter(function(e){return e.maxLevel>=20&&e.level>=e.maxLevel;}).length>=8;
+
+  var profiles=[
+    {
+      icon:'⚔️', type:'CWL War Player',
+      desc:'Needs maxed heroes, good equipment, active war history and CWL participation.',
+      match: maxHeroes&&warActive&&inCWL ? 'match' : (hPct>=0.75&&warActive) ? 'partial' : 'nomatch',
+      reasons: maxHeroes&&warActive&&inCWL?'Max heroes + '+p.warStars+' war stars + active CWL':hPct>=0.75?'Good heroes but check CWL status':'Heroes or war activity below threshold',
+    },
+    {
+      icon:'🏆', type:'Trophy Pusher',
+      desc:'Wants max heroes, legend league history, high trophies — goal is Legend League ranking.',
+      match: isLegend&&maxHeroes ? 'match' : (isLegend||hPct>=0.85) ? 'partial' : 'nomatch',
+      reasons: isLegend&&maxHeroes?'In Legend + near-max heroes — perfect for pushing':isLegend?'Legend league status confirmed':'Below Legend or heroes too low for top pushing',
+    },
+    {
+      icon:'🧪', type:'Max Grinder',
+      desc:'Wants near-maxed research so they can immediately compete without months of lab work.',
+      match: resPct>=0.85&&hPct>=0.85 ? 'match' : resPct>=0.65 ? 'partial' : 'nomatch',
+      reasons: Math.round(resPct*100)+'% core research + '+Math.round(hPct*100)+'% hero completion',
+    },
+    {
+      icon:'🤝', type:'Clan Leader / Co-Leader',
+      desc:'Needs high-level account with donation history and active clan involvement.',
+      match: donator&&p.role&&p.role!=='member'&&highTH ? 'match' : donator&&highTH ? 'partial' : 'nomatch',
+      reasons: donator?'Strong donation history (' +p.donations+ ' donated)':'Low donations — not ideal for donation-heavy roles',
+    },
+    {
+      icon:'💎', type:'Equipment Collector',
+      desc:'Focused on having max epic equipment — the newest prestige system in CoC.',
+      match: goodEquip ? 'match' : (p.heroEquipment||[]).filter(function(e){return e.maxLevel>=20;}).length>=10?'partial':'nomatch',
+      reasons: (p.heroEquipment||[]).filter(function(e){return e.maxLevel>=20&&e.level>=e.maxLevel;}).length+' Epic pieces maxed out of '+(p.heroEquipment||[]).filter(function(e){return e.maxLevel>=20;}).length+' total',
+    },
+    {
+      icon:'💰', type:'Budget Buyer',
+      desc:'Looking for best value — complete TH but not necessarily maxed everything.',
+      match: highTH&&!maxHeroes&&resPct<0.8 ? 'match' : !highTH ? 'nomatch' : 'partial',
+      reasons: highTH?'TH'+p.townHallLevel+' gives full gameplay access at reasonable price':'TH too high for budget tier',
+    },
+  ];
+
+  qs('#buyerGrid').innerHTML=profiles.map(function(b){
+    var badgeMap={match:'badge-match',partial:'badge-partial',nomatch:'badge-no'};
+    var labelMap={match:'✅ Great Match',partial:'⚠️ Partial Match',nomatch:'❌ Not Ideal'};
+    return '<div class="buyer-card '+b.match+'">'+
+      '<div class="buyer-icon">'+b.icon+'</div>'+
+      '<div class="buyer-type">'+b.type+'</div>'+
+      '<div class="buyer-desc">'+b.desc+'</div>'+
+      '<div class="buyer-badge '+badgeMap[b.match]+'">'+labelMap[b.match]+'</div>'+
+      '<div style="font-size:9px;color:var(--muted);margin-top:5px">'+b.reasons+'</div>'+
     '</div>';
   }).join('');
 }

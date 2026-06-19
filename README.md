@@ -5,6 +5,7 @@
 [![Uptime](https://img.shields.io/uptimerobot/status/m798XXXXXX?label=Dashboard&style=flat-square)](https://stats.uptimerobot.com/Bx5dpSNS6c)
 
 **🌐 Live Dashboard:** https://coc-dashboard-iqr3.onrender.com
+
 **📊 Status Page:** https://stats.uptimerobot.com/Bx5dpSNS6c
 
 ---

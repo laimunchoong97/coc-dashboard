@@ -874,6 +874,21 @@ function renderResearch(p) {
 /* ── TROOPS ── */
 function renderTroops(p) {
   var ht = (p.troops||[]).filter(function(t){return t.village==='home';});
+
+  // Active super troops bar
+  var active = ht.filter(function(t){return t.superTroopIsActive;});
+  var bar = qs('#superActiveBar');
+  if (active.length > 0) {
+    bar.style.display = 'flex';
+    bar.innerHTML = '<span style="font-size:10px;font-weight:700;color:var(--muted);margin-right:4px">ACTIVE:</span>' +
+      active.map(function(t){
+        var img = IMGS.troops[t.name]||'';
+        return '<div class="super-chip">'+(img?'<img src="'+img+'" width="20" height="20" alt="'+t.name+'"/>':'')+t.name+'</div>';
+      }).join('');
+  } else {
+    bar.style.display = 'none';
+  }
+
   troopGroups = {
     'Elixir': {e:'⚗️', u:ht.filter(function(t){return classifyTroop(t.name)==='elixir';})},
     'Dark':   {e:'🌑', u:ht.filter(function(t){return classifyTroop(t.name)==='dark';})},
@@ -929,6 +944,36 @@ function renderAchievements(p) {
       '<div class="ach-stars" style="color:'+(a.stars>=3?'var(--gold)':'var(--muted)')+'">'+stars+'</div>'+
       '<div class="ach-bar"><div class="ach-bar-fill" style="width:'+pct+'%"></div></div>'+
       '<div class="ach-val">'+fmtK(a.value)+' / '+fmtK(a.target)+'</div>'+
+    '</div>';
+  }).join('');
+}
+
+
+function renderPlayerStats(p) {
+  var achs = {};
+  (p.achievements||[]).forEach(function(a){ achs[a.name] = a; });
+
+  var atkWins  = p.attackWins||0;
+  var defWins  = p.defenseWins||0;
+  var total    = atkWins + defWins;
+  var winRate  = total>0 ? Math.round(atkWins/total*100) : 0;
+  var inCWL    = !!(p.currentLeagueGroupTag);
+
+  var stats = [
+    { icon:'⚔️', val:winRate+'%',                  lbl:'Attack Win Rate',      sub:atkWins+'W / '+defWins+'L',        cls:'green'  },
+    { icon:'🏆', val:fmtK((achs['Games Champion']&&achs['Games Champion'].value)||0), lbl:'Games Champion', sub:'Clan Games Points', cls:'gold'   },
+    { icon:'⭐', val:fmtK((achs['War League Legend']&&achs['War League Legend'].value)||0), lbl:'CWL Wars',  sub:'War League Legend',  cls:'blue'   },
+    { icon:'💰', val:fmtK((achs['Most Valuable Clanmate']&&achs['Most Valuable Clanmate'].value)||0), lbl:'Capital Gold', sub:'Most Valuable Clanmate', cls:'cyan' },
+    { icon:'📅', val:fmtK((achs['Well Seasoned']&&achs['Well Seasoned'].value)||0), lbl:'Season Points',   sub:'Well Seasoned',       cls:'purple' },
+    { icon:'🛡',  val:inCWL?'✅ Active':'—',        lbl:'CWL Participation',   sub:inCWL?'Currently in CWL':'Not in CWL', cls:inCWL?'green':'gray' },
+  ];
+
+  qs('#playerStatsGrid').innerHTML = stats.map(function(s) {
+    return '<div class="ps-card '+s.cls+'">'+
+      '<div class="ps-icon">'+s.icon+'</div>'+
+      '<div class="ps-val">'+s.val+'</div>'+
+      '<div class="ps-lbl">'+s.lbl+'</div>'+
+      '<div class="ps-sub">'+s.sub+'</div>'+
     '</div>';
   }).join('');
 }
